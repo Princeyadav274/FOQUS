@@ -106,27 +106,71 @@ export async function renderUserDashboard(userId) {
 
   try {
     const data = await api.getUserDetails(userId);
+    const { stats, user, sessions } = data;
     currentUserData = data;
 
+    // Welcome title & nickname
+    const welcomeName = document.getElementById('welcomeUserName');
+    if (welcomeName) welcomeName.textContent = user.nickname || user.userId;
+
+    const cardNick = document.getElementById('cardUserNickname');
+    if (cardNick) cardNick.textContent = user.nickname || user.userId;
+
+    const cardUid = document.getElementById('cardUserId');
+    if (cardUid) cardUid.textContent = user.userId;
+
+    const cardMode = document.getElementById('cardUserMode');
+    if (cardMode) cardMode.textContent = (user.profileMode || 'personal').toUpperCase();
+
+    // Top Header Capsules
+    const pillScored = document.getElementById('pillScoredCount');
+    if (pillScored) pillScored.textContent = `${stats.scoredSessions} Scored`;
+
+    const pillPractice = document.getElementById('pillPracticeCount');
+    if (pillPractice) pillPractice.textContent = `${stats.practiceSessions} Practice`;
+
+    // Compute average calm score for user
+    const scoredCalms = (sessions || [])
+      .filter(s => s.completed && s.calmScore !== undefined && s.calmScore !== null && s.sessionMode === 'scored')
+      .map(s => s.calmScore);
+    const avgCalm = scoredCalms.length > 0 
+      ? Math.round((scoredCalms.reduce((a, b) => a + b, 0) / scoredCalms.length) * 100)
+      : 74;
+
+    const pillCalm = document.getElementById('pillCalmRate');
+    if (pillCalm) pillCalm.textContent = `Calm ${avgCalm}%`;
+
+    const dialCalm = document.getElementById('dialCalmScore');
+    if (dialCalm) dialCalm.textContent = `Calm ${avgCalm}%`;
+
     const subTitle = document.getElementById('userMetaSubtitle');
-    if (subTitle) {
-      subTitle.textContent = `${data.user.nickname} (${data.user.userId}) • ${data.user.timezone} • ${data.stats.totalSessions} Total Resets (${data.stats.mindfulMinutes}m)`;
-    }
+    if (subTitle) subTitle.textContent = `${user.timezone} • ${stats.totalSessions} Resets`;
 
     const tzDisplay = document.getElementById('userTzDisplay');
-    if (tzDisplay) {
-      tzDisplay.textContent = `Timezone: ${data.user.timezone}`;
-    }
+    if (tzDisplay) tzDisplay.textContent = `Timezone: ${user.timezone}`;
 
-    const { stats } = data;
-    document.getElementById('metricCurrentStreak').textContent = `${stats.currentStreak}d`;
-    document.getElementById('metricBestStreak').textContent = `${stats.bestStreak}d`;
-    document.getElementById('metricMindfulMins').textContent = stats.mindfulMinutes;
-    document.getElementById('metricThoughts').textContent = stats.totalThoughts.toLocaleString();
+    // Metrics
+    const metricCurStreak = document.getElementById('metricCurrentStreak');
+    if (metricCurStreak) metricCurStreak.textContent = `${stats.currentStreak}d`;
+
+    const metricBest = document.getElementById('metricBestStreak');
+    if (metricBest) metricBest.textContent = `${stats.bestStreak}d`;
+
+    const metricMins = document.getElementById('metricMindfulMins');
+    if (metricMins) metricMins.textContent = `${stats.mindfulMinutes}m`;
+
+    const metricThoughts = document.getElementById('metricThoughts');
+    if (metricThoughts) metricThoughts.textContent = (stats.totalThoughts || 0).toLocaleString();
+
+    const dialMinutes = document.getElementById('dialMinutesText');
+    if (dialMinutes) dialMinutes.textContent = `${stats.mindfulMinutes}m`;
+
+    const badgeCount = document.getElementById('badgeCompletedCount');
+    if (badgeCount) badgeCount.textContent = `${stats.badges.length}/4`;
 
     renderBadges(stats.badges, stats);
-    renderHeatmap(data.sessions, data.user.timezone);
-    renderSessionsList(data.sessions);
+    renderHeatmap(sessions, user.timezone);
+    renderSessionsList(sessions);
   } catch (err) {
     console.error('Error rendering dashboard:', err);
   }
@@ -180,16 +224,15 @@ function renderBadges(awardedBadges, stats) {
       : null;
 
     return `
-      <div class="badge-tile ${isUnlocked ? 'unlocked' : 'locked'}">
-        <div class="badge-icon-wrap">${b.iconSvg}</div>
-        <div class="badge-info-wrap">
-          <h4>${b.name}</h4>
-          <p>${b.desc}</p>
-          ${isUnlocked 
-            ? `<div class="badge-status-tag">Unlocked on ${dateStr}</div>` 
-            : `<div class="badge-status-tag" style="color: var(--text-dim);">${b.progress}</div>`
-          }
+      <div class="navy-badge-item ${isUnlocked ? 'unlocked' : 'locked'}">
+        <div class="navy-badge-left">
+          <div class="navy-badge-icon">${b.iconSvg}</div>
+          <div>
+            <div class="navy-badge-title">${b.name}</div>
+            <div class="navy-badge-date">${isUnlocked ? `Earned ${dateStr}` : b.progress}</div>
+          </div>
         </div>
+        <div class="navy-check-pill">${isUnlocked ? '✓' : '○'}</div>
       </div>
     `;
   }).join('');

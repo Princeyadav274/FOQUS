@@ -56,85 +56,156 @@
 
   <!-- SCREEN 1: PERSONAL USER DASHBOARD -->
   <section id="dashboardView" class="screen-view">
-    <main class="container">
+    <main class="container bento-container">
       
-      <!-- Minimalist Atmospheric Hero (Solvana Inspired) -->
-      <div class="hero-atmosphere">
-        <h1 class="hero-quote">Quiet the noise. Let your mind wander home.</h1>
-        <p class="hero-sub" id="userMetaSubtitle">Loading practitioner data...</p>
-      </div>
-
-      <!-- Core Metrics Grid -->
-      <div class="stat-grid-minimal">
-        <div class="stat-box streak-active">
-          <div class="stat-label">
-            <span>Current Streak</span>
-            <div id="iconCurrentStreak"></div>
+      <!-- Top Welcome & Summary Bar (Crextio Inspired) -->
+      <div class="welcome-header-row">
+        <div class="welcome-left">
+          <h1 class="welcome-title">Welcome in, <span id="welcomeUserName">Practitioner</span></h1>
+          <div class="status-capsules-group">
+            <span class="capsule-pill capsule-blue" id="pillScoredCount">Scored Resets</span>
+            <span class="capsule-pill capsule-darkblue" id="pillPracticeCount">Practice Sessions</span>
+            <span class="capsule-pill capsule-soft" id="pillCalmRate">Calm Baseline</span>
+            <span class="capsule-pill capsule-outline" id="userMetaSubtitle">UTC</span>
           </div>
-          <div id="metricCurrentStreak" class="stat-val">0d</div>
-          <div class="stat-desc">Consecutive scored days</div>
         </div>
 
-        <div class="stat-box">
-          <div class="stat-label">
-            <span>Best Streak</span>
-            <div id="iconBestStreak"></div>
+        <div class="welcome-stats-right">
+          <div class="stat-counter-unit">
+            <div class="counter-bubble" id="iconBestStreak"></div>
+            <div class="counter-text">
+              <span class="counter-num" id="metricBestStreak">0d</span>
+              <span class="counter-label">Best Streak</span>
+            </div>
           </div>
-          <div id="metricBestStreak" class="stat-val">0d</div>
-          <div class="stat-desc">Longest streak recorded</div>
-        </div>
-
-        <div class="stat-box">
-          <div class="stat-label">
-            <span>Mindful Minutes</span>
-            <div id="iconMindfulMins"></div>
+          <div class="stat-counter-unit">
+            <div class="counter-bubble" id="iconMindfulMins"></div>
+            <div class="counter-text">
+              <span class="counter-num" id="metricMindfulMins">0m</span>
+              <span class="counter-label">Mindful Mins</span>
+            </div>
           </div>
-          <div id="metricMindfulMins" class="stat-val">0</div>
-          <div class="stat-desc">Across completed resets</div>
-        </div>
-
-        <div class="stat-box">
-          <div class="stat-label">
-            <span>Thoughts Gathered</span>
-            <div id="iconThoughts"></div>
+          <div class="stat-counter-unit">
+            <div class="counter-bubble" id="iconThoughts"></div>
+            <div class="counter-text">
+              <span class="counter-num" id="metricThoughts">0</span>
+              <span class="counter-label">Thoughts</span>
+            </div>
           </div>
-          <div id="metricThoughts" class="stat-val">0</div>
-          <div class="stat-desc">Exhale shape count</div>
         </div>
       </div>
 
-      <!-- Badges Shelf -->
-      <section class="section-card">
-        <div class="section-head">
-          <h2 class="section-title">Badges & Honors</h2>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">Dated to qualifying session</span>
-        </div>
-        <div id="badgeShelfContainer" class="badge-row-minimal"></div>
-      </section>
-
-      <!-- 42-Day Activity Heatmap -->
-      <section class="section-card">
-        <div class="section-head">
-          <h2 class="section-title">42-Day Rolling Consistency</h2>
-          <span style="font-size: 0.75rem; color: var(--text-muted);" id="userTzDisplay">Local timezone</span>
-        </div>
-        <div class="heatmap-tray">
-          <div id="heatmapGrid" class="heatmap-grid-simple"></div>
-        </div>
-      </section>
-
-      <!-- Session History -->
-      <section class="section-card">
-        <div class="section-head">
-          <h2 class="section-title">Session History</h2>
-          <div class="filter-tabs-simple">
-            <button class="filter-btn-simple active" data-filter="all">All</button>
-            <button class="filter-btn-simple" data-filter="scored">Scored</button>
-            <button class="filter-btn-simple" data-filter="practice">Practice</button>
+      <!-- Top Bento 4-Card Row -->
+      <div class="bento-top-grid">
+        
+        <!-- Card 1: Practitioner Profile Avatar Card -->
+        <div class="bento-card portrait-card">
+          <div class="portrait-photo-wrap">
+            <img src="/assets/hero-solvana.jpg" alt="Practitioner Sanctuary" class="portrait-img">
+            <div class="portrait-overlay">
+              <div class="portrait-info">
+                <h3 id="cardUserNickname" class="portrait-name">Practitioner</h3>
+                <span id="cardUserId" class="portrait-sub">usr_profile</span>
+              </div>
+              <div class="portrait-badge-tag">
+                <span id="cardUserMode">Personal</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="sessionsList" class="history-rows"></div>
-      </section>
+
+        <!-- Card 2: Progress & Weekly Consistency Bars -->
+        <div class="bento-card progress-card">
+          <div class="card-top-bar">
+            <span class="card-heading">Progress</span>
+            <span class="card-arrow-link">&#x2197;</span>
+          </div>
+          <div class="progress-num-row">
+            <span class="progress-big-val" id="metricCurrentStreak">0d</span>
+            <span class="progress-sub-label">Current Streak</span>
+            <span class="progress-floating-pill" id="pillStreakActive">Active</span>
+          </div>
+          <!-- Weekly Activity Bar Pillars -->
+          <div class="weekly-pillars-wrap">
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 65%;"></div><span class="pillar-label">S</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 90%;"></div><span class="pillar-label">M</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 75%;"></div><span class="pillar-label">T</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 100%;"></div><span class="pillar-label">W</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 85%;"></div><span class="pillar-label">T</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 95%;"></div><span class="pillar-label">F</span></div>
+            <div class="pillar-col"><div class="pillar-bar" style="height: 30%;"></div><span class="pillar-label">S</span></div>
+          </div>
+        </div>
+
+        <!-- Card 3: Time Tracker / Circular Resonance Gauge -->
+        <div class="bento-card tracker-card">
+          <div class="card-top-bar">
+            <span class="card-heading">Mindful Tracker</span>
+            <span class="card-arrow-link">&#x2197;</span>
+          </div>
+          <div class="dial-container">
+            <svg class="circular-dial" viewBox="0 0 120 120">
+              <circle class="dial-track" cx="60" cy="60" r="50" fill="none" stroke-width="8" />
+              <circle class="dial-progress" cx="60" cy="60" r="50" fill="none" stroke-width="8" stroke-dasharray="314" stroke-dashoffset="75" />
+            </svg>
+            <div class="dial-center-content">
+              <span id="dialMinutesText" class="dial-time-val">0m</span>
+              <span class="dial-time-sub">Reset Time</span>
+            </div>
+          </div>
+          <div class="dial-footer-pills">
+            <span class="dial-mode-pill">Deep Focus</span>
+            <span class="dial-mode-pill dial-pill-soft" id="dialCalmScore">Calm 74%</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Featured Dark Card (Badges & Honors 4/4) -->
+        <div class="bento-card navy-tasks-card">
+          <div class="card-top-bar">
+            <span class="navy-heading">Honors & Badges</span>
+            <span class="navy-count-badge" id="badgeCompletedCount">4/4</span>
+          </div>
+          <div id="badgeShelfContainer" class="navy-badges-list"></div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bento 2-Column Row -->
+      <div class="bento-bottom-grid">
+        
+        <!-- Left: Session History List -->
+        <div class="bento-card history-panel-card">
+          <div class="section-head">
+            <h2 class="section-title">Session Practice Feed</h2>
+            <div class="filter-tabs-simple">
+              <button class="filter-btn-simple active" data-filter="all">All</button>
+              <button class="filter-btn-simple" data-filter="scored">Scored</button>
+              <button class="filter-btn-simple" data-filter="practice">Practice</button>
+            </div>
+          </div>
+          <div id="sessionsList" class="history-rows"></div>
+        </div>
+
+        <!-- Right: 42-Day Rolling Consistency Heatmap -->
+        <div class="bento-card heatmap-panel-card">
+          <div class="section-head">
+            <h2 class="section-title">42-Day Rolling Consistency</h2>
+            <span style="font-size: 0.75rem; color: var(--text-muted);" id="userTzDisplay">Local timezone</span>
+          </div>
+          <div class="heatmap-tray">
+            <div id="heatmapGrid" class="heatmap-grid-simple"></div>
+          </div>
+          <div class="heatmap-legend-row">
+            <span class="legend-text">Less</span>
+            <span class="legend-box" style="background: rgba(0,0,0,0.06);"></span>
+            <span class="legend-box" style="background: rgba(16, 185, 129, 0.3);"></span>
+            <span class="legend-box" style="background: rgba(16, 185, 129, 0.6);"></span>
+            <span class="legend-box" style="background: #10b981;"></span>
+            <span class="legend-text">More</span>
+          </div>
+        </div>
+
+      </div>
 
     </main>
   </section>

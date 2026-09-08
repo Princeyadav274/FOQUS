@@ -1,83 +1,82 @@
 :root {
   /* ==========================================================================
-     Light Mode Neumorphic Palette (Default)
+     Soft UI / Neumorphic Light Palette (Crextio / Nixtio Inspired)
      ========================================================================== */
-  --bg: #e6ebf2;
-  --neu-base: #e6ebf2;
-  --neu-surface: #e6ebf2;
-  --neu-dark: rgba(163, 177, 198, 0.7);
+  --bg: #edf3fb;
+  --neu-base: #edf3fb;
+  --neu-surface: #ffffff;
+  --neu-card-bg: #ffffff;
+  --neu-dark: rgba(174, 194, 220, 0.45);
   --neu-light: #ffffff;
-  --neu-border: rgba(255, 255, 255, 0.6);
+  --neu-border: rgba(255, 255, 255, 0.9);
 
-  /* Extruded & Inset Shadow Sets */
-  --neu-extruded: 7px 7px 16px var(--neu-dark), -7px -7px 16px var(--neu-light);
-  --neu-extruded-sm: 4px 4px 10px var(--neu-dark), -4px -4px 10px var(--neu-light);
-  --neu-pressed: inset 4px 4px 8px var(--neu-dark), inset -4px -4px 8px var(--neu-light);
-  --neu-pressed-sm: inset 2px 2px 5px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
+  /* Dual Soft Shadow Elevations */
+  --neu-extruded: 10px 14px 26px var(--neu-dark), -8px -8px 22px var(--neu-light);
+  --neu-extruded-sm: 4px 6px 14px var(--neu-dark), -4px -4px 12px var(--neu-light);
+  --neu-pressed: inset 3px 3px 7px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
+  --neu-pressed-sm: inset 2px 2px 4px var(--neu-dark), inset -2px -2px 4px var(--neu-light);
+
+  /* Signature Cobalt & Navy Accents */
+  --primary-cobalt: #185ee0;
+  --primary-cobalt-hover: #124ec0;
+  --primary-cobalt-soft: rgba(24, 94, 224, 0.12);
+  --primary-navy-card: #0f2452;
+  --primary-navy-card-border: rgba(255, 255, 255, 0.15);
 
   /* Typography Colors */
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-dim: #94a3b8;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --text-dim: #9ca3af;
 
-  /* Accents */
-  --accent-gold: #b45309;
-  --accent-gold-soft: rgba(180, 83, 9, 0.12);
-  --accent-emerald: #059669;
-  --accent-emerald-soft: rgba(5, 150, 105, 0.12);
-  --accent-rose: #e11d48;
+  /* Accent Signals */
+  --accent-gold: #f59e0b;
+  --accent-gold-soft: rgba(245, 158, 11, 0.15);
+  --accent-emerald: #10b981;
+  --accent-emerald-soft: rgba(16, 185, 129, 0.15);
+  --accent-rose: #ef4444;
   --accent-cyan: #0284c7;
-  --accent-purple: #7c3aed;
-
-  /* Hero Atmospheric Backdrop */
-  --hero-overlay: linear-gradient(180deg, rgba(230, 235, 242, 0.35) 0%, rgba(230, 235, 242, 0.96) 90%);
-  --hero-img: url('/assets/hero-sanctuary.jpg');
 
   /* Typography */
   --font-serif: 'Newsreader', Georgia, serif;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-  /* Smooth Corner Radii */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 22px;
+  /* Curved Radii */
+  --radius-xs: 8px;
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 26px;
   --radius-full: 9999px;
 }
 
 [data-theme="dark"] {
   /* ==========================================================================
-     Dark Mode Neumorphic Palette
+     Dark Soft UI / Neumorphic Palette
      ========================================================================== */
-  --bg: #0e1118;
-  --neu-base: #11141d;
-  --neu-surface: #131722;
-  --neu-dark: rgba(0, 0, 0, 0.7);
-  --neu-light: rgba(255, 255, 255, 0.045);
-  --neu-border: rgba(255, 255, 255, 0.03);
+  --bg: #0b0f17;
+  --neu-base: #0f141f;
+  --neu-surface: #131a29;
+  --neu-card-bg: #131a29;
+  --neu-dark: rgba(0, 0, 0, 0.75);
+  --neu-light: rgba(255, 255, 255, 0.04);
+  --neu-border: rgba(255, 255, 255, 0.04);
 
-  --neu-extruded: 7px 7px 16px var(--neu-dark), -6px -6px 14px var(--neu-light);
-  --neu-extruded-sm: 4px 4px 10px var(--neu-dark), -3px -3px 8px var(--neu-light);
-  --neu-pressed: inset 4px 4px 8px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
-  --neu-pressed-sm: inset 2px 2px 5px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
+  --neu-extruded: 8px 10px 22px var(--neu-dark), -5px -5px 16px var(--neu-light);
+  --neu-extruded-sm: 4px 5px 12px var(--neu-dark), -3px -3px 8px var(--neu-light);
+  --neu-pressed: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
+  --neu-pressed-sm: inset 2px 2px 4px var(--neu-dark), inset -2px -2px 4px var(--neu-light);
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-dim: #475569;
+  --primary-cobalt: #3b82f6;
+  --primary-cobalt-hover: #2563eb;
+  --primary-cobalt-soft: rgba(59, 130, 246, 0.18);
+  --primary-navy-card: #182236;
+  --primary-navy-card-border: rgba(255, 255, 255, 0.08);
 
-  --accent-gold: #eab308;
-  --accent-gold-soft: rgba(234, 179, 8, 0.15);
-  --accent-emerald: #10b981;
-  --accent-emerald-soft: rgba(16, 185, 129, 0.15);
-  --accent-rose: #f43f5e;
-  --accent-cyan: #06b6d4;
-  --accent-purple: #a855f7;
-
-  --hero-overlay: linear-gradient(180deg, rgba(14, 17, 24, 0.3) 0%, rgba(14, 17, 24, 0.95) 90%);
-  --hero-img: url('/assets/hero-solvana.jpg');
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-dim: #4b5563;
 }
 
 * {

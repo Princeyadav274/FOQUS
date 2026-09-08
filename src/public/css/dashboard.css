@@ -160,206 +160,520 @@
 }
 
 /* ==========================================================================
-   Main Content Layout
+   Main Bento Content Layout (Crextio / Soft UI 2.0 Inspired)
    ========================================================================== */
-.container {
-  max-width: 1120px;
-  margin: 2rem auto 5rem;
+.bento-container {
+  max-width: 1240px;
+  margin: 1.5rem auto 5rem;
   padding: 0 1.5rem;
 }
 
-/* Neumorphic Atmosphere Card with Image */
-.hero-atmosphere {
-  position: relative;
-  min-height: 240px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 2.5rem 3rem;
-  margin-bottom: 2.5rem;
-  background: 
-    var(--hero-overlay),
-    var(--hero-img) center 40% / cover no-repeat;
-  box-shadow: var(--neu-extruded);
-  border: 1px solid var(--neu-border);
-}
-
-.hero-quote {
-  font-family: var(--font-serif);
-  font-size: 2.1rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.4rem;
-}
-
-.hero-sub {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-/* Neumorphic Stat Boxes Grid */
-.stat-grid-minimal {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
-}
-
-@media (max-width: 850px) {
-  .stat-grid-minimal {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.stat-box {
-  background: var(--neu-surface);
-  box-shadow: var(--neu-extruded);
-  border: 1px solid var(--neu-border);
-  border-radius: var(--radius-md);
-  padding: 1.4rem 1.6rem;
-  transition: all 0.25s ease;
-}
-
-.stat-box:hover {
-  transform: translateY(-2px);
-  box-shadow: 9px 9px 20px var(--neu-dark), -8px -8px 18px var(--neu-light);
-}
-
-.stat-box.streak-active {
-  border-color: rgba(180, 83, 9, 0.3);
-}
-
-.stat-label {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-  margin-bottom: 0.6rem;
+/* Top Welcome & Summary Header Bar */
+.welcome-header-row {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.welcome-title {
+  font-size: 1.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 0.65rem;
+}
+
+.status-capsules-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
   align-items: center;
 }
 
-.stat-val {
-  font-family: var(--font-sans);
-  font-size: 2.3rem;
+.capsule-pill {
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.capsule-blue {
+  background: var(--primary-cobalt);
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(24, 94, 224, 0.25);
+}
+
+.capsule-darkblue {
+  background: var(--primary-navy-card);
+  color: #ffffff;
+}
+
+.capsule-soft {
+  background: var(--primary-cobalt-soft);
+  color: var(--primary-cobalt);
+}
+
+.capsule-outline {
+  background: var(--neu-card-bg);
+  border: 1px solid var(--neu-border);
+  color: var(--text-muted);
+  box-shadow: var(--neu-extruded-sm);
+  font-family: var(--font-mono);
+}
+
+/* Top Right Counters */
+.welcome-stats-right {
+  display: flex;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.stat-counter-unit {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.counter-bubble {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--neu-card-bg);
+  box-shadow: var(--neu-extruded-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-cobalt);
+  flex-shrink: 0;
+}
+
+.counter-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.counter-num {
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
 }
 
-.stat-box.streak-active .stat-val {
-  color: var(--accent-gold);
+.counter-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: 0.2rem;
 }
 
-.stat-desc {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  margin-top: 0.4rem;
+/* ==========================================================================
+   Bento Top Grid (4 Columns)
+   ========================================================================== */
+.bento-top-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr 1.35fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
-/* Neumorphic Section Panels */
-.section-card {
-  background: var(--neu-surface);
+@media (max-width: 1100px) {
+  .bento-top-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .bento-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-card {
+  background: var(--neu-card-bg);
+  border-radius: var(--radius-lg);
   box-shadow: var(--neu-extruded);
   border: 1px solid var(--neu-border);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem 2rem;
-  margin-bottom: 2.5rem;
+  padding: 1.25rem 1.4rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 240px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.section-head {
+.bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 12px 16px 30px var(--neu-dark), -10px -10px 24px var(--neu-light);
+}
+
+/* Card 1: Portrait / Avatar */
+.portrait-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.portrait-photo-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.portrait-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.1rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 36, 82, 0.88) 85%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: #ffffff;
+}
+
+.portrait-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.portrait-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-mono);
+}
+
+.portrait-badge-tag {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Card 2: Progress Card with Pillars */
+.card-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  margin-bottom: 0.5rem;
 }
 
-.section-title {
-  font-size: 1rem;
+.card-heading {
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
+  color: var(--text-muted);
 }
 
-/* Neumorphic Badges Grid */
-.badge-row-minimal {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.25rem;
+.card-arrow-link {
+  font-size: 1.1rem;
+  color: var(--text-dim);
 }
 
-.badge-tile {
-  background: var(--neu-base);
-  box-shadow: var(--neu-extruded-sm);
-  border: 1px solid var(--neu-border);
-  border-radius: var(--radius-md);
-  padding: 1.1rem 1.25rem;
+.progress-num-row {
   display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.progress-big-val {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.progress-sub-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.progress-floating-pill {
+  background: var(--primary-cobalt);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  padding: 0.15rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.weekly-pillars-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 105px;
+  padding: 0.5rem 0.25rem 0;
+  margin-top: auto;
+}
+
+.pillar-col {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  transition: all 0.25s ease;
+  gap: 0.4rem;
+  height: 100%;
+  justify-content: flex-end;
 }
 
-.badge-tile.locked {
-  opacity: 0.35;
-  box-shadow: var(--neu-pressed-sm);
+.pillar-bar {
+  width: 9px;
+  border-radius: var(--radius-full);
+  background: rgba(24, 94, 224, 0.12);
+  min-height: 12px;
+  transition: height 0.3s ease;
 }
 
-.badge-tile.unlocked {
-  border-color: rgba(180, 83, 9, 0.3);
+.pillar-bar.active {
+  background: var(--primary-cobalt);
+  box-shadow: 0 2px 6px rgba(24, 94, 224, 0.3);
 }
 
-.badge-tile.unlocked:hover {
-  transform: translateY(-2px);
-  box-shadow: 6px 6px 14px var(--neu-dark), -5px -5px 12px var(--neu-light);
+.pillar-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
-/* Embossed circular emblem socket */
-.badge-icon-wrap {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+/* Card 3: Mindful Tracker Dial */
+.dial-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0.2rem auto 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--neu-surface);
-  box-shadow: var(--neu-pressed-sm);
-  border: 1px solid var(--neu-border);
+}
+
+.circular-dial {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.dial-track {
+  stroke: rgba(24, 94, 224, 0.1);
+}
+
+.dial-progress {
+  stroke: var(--primary-cobalt);
+  stroke-linecap: round;
+}
+
+.dial-center-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.dial-time-val {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.dial-time-sub {
+  font-size: 0.65rem;
   color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+  font-weight: 600;
+}
+
+.dial-footer-pills {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+}
+
+.dial-mode-pill {
+  background: var(--primary-cobalt-soft);
+  color: var(--primary-cobalt);
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.dial-pill-soft {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-emerald);
+}
+
+/* Card 4: Featured Dark Navy Tasks Card */
+.navy-tasks-card {
+  background: var(--primary-navy-card);
+  color: #ffffff;
+  border: 1px solid var(--primary-navy-card-border);
+  padding: 1.25rem 1.4rem;
+}
+
+.navy-heading {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.navy-count-badge {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.navy-badges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.navy-badge-item {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  transition: all 0.15s ease;
+}
+
+.navy-badge-item.unlocked {
+  background: rgba(24, 94, 224, 0.28);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.navy-badge-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.navy-badge-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
   flex-shrink: 0;
 }
 
-.badge-tile.unlocked .badge-icon-wrap {
-  color: var(--accent-gold);
-  box-shadow: var(--neu-extruded-sm);
+.navy-badge-item.unlocked .navy-badge-icon {
+  background: var(--primary-cobalt);
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
 }
 
-.badge-info-wrap h4 {
-  font-size: 0.85rem;
+.navy-badge-title {
+  font-size: 0.78rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
-.badge-info-wrap p {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-top: 0.15rem;
-  line-height: 1.35;
+.navy-badge-date {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.1rem;
 }
 
-.badge-status-tag {
+.navy-check-pill {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.7rem;
-  color: var(--accent-gold);
-  margin-top: 0.3rem;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.navy-badge-item.unlocked .navy-check-pill {
+  background: var(--primary-cobalt);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Bottom Bento Grid (2 Columns)
+   ========================================================================== */
+.bento-bottom-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 950px) {
+  .bento-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.history-panel-card,
+.heatmap-panel-card {
+  background: var(--neu-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--neu-extruded);
+  border: 1px solid var(--neu-border);
+  padding: 1.4rem 1.6rem;
+}
+
+.heatmap-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+
+.legend-text {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.legend-box {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
 }
 
 /* 42-Day Consistency Heatmap in Neumorphic Tray */

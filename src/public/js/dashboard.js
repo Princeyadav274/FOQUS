@@ -11,23 +11,19 @@ export async function initDashboard() {
 }
 
 function injectStaticIcons() {
-  // Brand logo
   const brandLogoSlot = document.getElementById('brandLogoSlot');
   if (brandLogoSlot) brandLogoSlot.innerHTML = icons.logoMark;
 
-  // Tabs
   const tabPracticeIcon = document.getElementById('tabPracticeIcon');
   if (tabPracticeIcon) tabPracticeIcon.innerHTML = icons.practice;
   const tabCommunityIcon = document.getElementById('tabCommunityIcon');
   if (tabCommunityIcon) tabCommunityIcon.innerHTML = icons.globe;
 
-  // Action icons
   const exportIconSlot = document.getElementById('exportIconSlot');
   if (exportIconSlot) exportIconSlot.innerHTML = icons.download;
   const eraseIconSlot = document.getElementById('eraseIconSlot');
   if (eraseIconSlot) eraseIconSlot.innerHTML = icons.trash;
 
-  // Metric icons
   const iconCurrentStreak = document.getElementById('iconCurrentStreak');
   if (iconCurrentStreak) iconCurrentStreak.innerHTML = icons.flame;
   const iconBestStreak = document.getElementById('iconBestStreak');
@@ -55,7 +51,7 @@ async function loadUserList() {
     users.forEach((u) => {
       const opt = document.createElement('option');
       opt.value = u.userId;
-      opt.textContent = `${u.nickname} (${u.userId.slice(0, 12)}…) — ${u.sessionCount} sessions [${u.timezone}]`;
+      opt.textContent = `${u.nickname} (${u.sessionCount} resets) • ${u.timezone}`;
       select.appendChild(opt);
     });
 
@@ -81,27 +77,25 @@ export async function renderUserDashboard(userId) {
     const data = await api.getUserDetails(userId);
     currentUserData = data;
 
-    // Update Avatar initials
     const avatarSlot = document.getElementById('userAvatarSlot');
     if (avatarSlot) {
       const initials = (data.user.nickname || 'FQ').slice(0, 2).toUpperCase();
       avatarSlot.textContent = initials;
     }
 
-    // Update Meta Pills
-    const userMetaPills = document.getElementById('userMetaPills');
-    if (userMetaPills) {
-      userMetaPills.innerHTML = `
-        <div class="meta-pill">
-          <span>${data.user.timezone}</span>
-        </div>
-        <div class="meta-pill">
-          <span>Mode: ${data.user.profileMode}</span>
-        </div>
+    const nameTitle = document.getElementById('userNameTitle');
+    if (nameTitle) {
+      nameTitle.textContent = `${data.user.nickname} (${data.user.userId})`;
+    }
+
+    const userMetaTags = document.getElementById('userMetaTags');
+    if (userMetaTags) {
+      userMetaTags.innerHTML = `
+        <span class="meta-tag">📍 ${data.user.timezone}</span>
+        <span class="meta-tag">Account: ${data.user.profileMode}</span>
       `;
     }
 
-    // Top Metrics
     const { stats } = data;
     document.getElementById('metricCurrentStreak').textContent = `${stats.currentStreak}d`;
     document.getElementById('metricBestStreak').textContent = `${stats.bestStreak}d`;
@@ -109,13 +103,8 @@ export async function renderUserDashboard(userId) {
     document.getElementById('metricThoughts').textContent = stats.totalThoughts.toLocaleString();
     document.getElementById('metricCompleted').textContent = `${stats.completedSessions} / ${stats.totalSessions}`;
 
-    // Render Badges Shelf
     renderBadges(stats.badges, stats);
-
-    // Render Heatmap
     renderHeatmap(data.sessions, data.user.timezone);
-
-    // Render Sessions Timeline
     renderSessionsList(data.sessions);
   } catch (err) {
     console.error('Error rendering dashboard:', err);
@@ -135,7 +124,7 @@ function renderBadges(awardedBadges, stats) {
     {
       id: 'first_reset',
       name: 'First Reset',
-      desc: 'First completed scored session',
+      desc: 'First completed scored breathing session',
       iconSvg: icons.badges.first_reset,
       progress: stats.scoredSessions >= 1 ? 'Unlocked' : `${stats.scoredSessions}/1 scored reset`
     },
@@ -170,14 +159,14 @@ function renderBadges(awardedBadges, stats) {
       : null;
 
     return `
-      <div class="badge-token ${isUnlocked ? 'unlocked' : 'locked'}">
-        <div class="badge-emblem">${b.iconSvg}</div>
-        <div class="badge-details">
+      <div class="badge-luxury-box ${isUnlocked ? 'unlocked' : 'locked'}">
+        <div class="badge-emblem-orb">${b.iconSvg}</div>
+        <div class="badge-text-meta">
           <h4>${b.name}</h4>
           <p>${b.desc}</p>
           ${isUnlocked 
-            ? `<div class="badge-earned-tag">${icons.checkCircle} Earned on ${dateStr}</div>` 
-            : `<div class="badge-earned-tag" style="color: var(--text-muted);">${icons.lock} ${b.progress}</div>`
+            ? `<div class="badge-status-row">${icons.checkCircle} Earned on ${dateStr}</div>` 
+            : `<div class="badge-status-row" style="color: var(--text-muted);">${icons.lock} ${b.progress}</div>`
           }
         </div>
       </div>
@@ -218,12 +207,12 @@ function renderHeatmap(sessions, timezone) {
   }
 
   container.innerHTML = daysArray.map(item => {
-    let levelClass = '';
-    if (item.count === 1) levelClass = 'level-1';
-    else if (item.count === 2) levelClass = 'level-2';
-    else if (item.count >= 3) levelClass = 'level-3';
+    let lvlClass = '';
+    if (item.count === 1) lvlClass = 'lvl-1';
+    else if (item.count === 2) lvlClass = 'lvl-2';
+    else if (item.count >= 3) lvlClass = 'lvl-3';
 
-    return `<div class="heatmap-cell ${levelClass}" title="${item.dayStr}: ${item.count} sessions completed"></div>`;
+    return `<div class="heatmap-dot ${lvlClass}" title="${item.dayStr}: ${item.count} sessions completed"></div>`;
   }).join('');
 }
 
@@ -254,24 +243,24 @@ function renderSessionsList(sessions) {
 
     const isScored = s.sessionMode === 'scored' && !s.isPractice;
     const calmVal = typeof s.calmScore === 'number' ? (s.calmScore * 100).toFixed(0) : null;
-    const calmClass = s.calmScore >= 0.7 ? 'calm-gauge-high' : 'calm-gauge-mid';
+    const calmClass = s.calmScore >= 0.7 ? 'gauge-high' : 'gauge-mid';
 
     return `
-      <div class="timeline-card">
-        <div class="timeline-left">
-          <div class="duration-chip">${s.durationSelected}m ${isScored ? 'Scored' : 'Practice'}</div>
-          <div class="timeline-meta">
+      <div class="timeline-session-card">
+        <div class="session-left-meta">
+          <div class="duration-tag-badge">${s.durationSelected}m ${isScored ? 'Scored' : 'Practice'}</div>
+          <div class="session-titles">
             <h5>${s.intention || 'Reset'} • ${s.reflection || 'Calmer'}</h5>
             <span>${dateStr} • Thoughts: ${s.thoughtsGathered || 0} (Merged: ${s.mergedThoughts || 0}) • Steadiness: ${(s.averageSteadiness * 100).toFixed(0)}%</span>
           </div>
         </div>
-        <div class="timeline-right">
+        <div class="session-right-indicators">
           ${isScored && calmVal !== null 
-            ? `<div class="calm-gauge-pill ${calmClass}"><span>Calm ${calmVal}%</span></div>` 
+            ? `<div class="calm-pill-gauge ${calmClass}"><span>Calm ${calmVal}%</span></div>` 
             : ''
           }
           ${s.feedbackComment 
-            ? `<div class="private-note-card" title="Private owner feedback (Rule 2 protected)">
+            ? `<div class="private-feedback-bubble" title="Private owner note (Rule 2 protected)">
                 ${icons.lock} <span>"${escapeHtml(s.feedbackComment)}"</span>
                </div>` 
             : ''
@@ -287,7 +276,14 @@ function escapeHtml(str) {
 }
 
 function setupActions() {
-  const filterBtns = document.querySelectorAll('.filter-tab');
+  const btnScrollStats = document.getElementById('btnScrollStats');
+  if (btnScrollStats) {
+    btnScrollStats.addEventListener('click', () => {
+      document.getElementById('statsSection')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  const filterBtns = document.querySelectorAll('.filter-pill-tab');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       filterBtns.forEach(b => b.classList.remove('active'));

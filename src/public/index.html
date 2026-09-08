@@ -22,7 +22,7 @@
     <div class="brand-container">
       <div id="brandLogoSlot" class="brand-icon-wrapper"></div>
       <span class="brand-title">FoQus</span>
-      <span class="brand-sub">Sync Engine</span>
+      <span class="brand-tagline">Mindfulness Sync</span>
     </div>
 
     <!-- Screen Switcher Navigation Tabs -->
@@ -36,130 +36,130 @@
     </nav>
   </header>
 
-  <main class="main-content">
+  <!-- SCREEN 1: PERSONAL USER DASHBOARD -->
+  <section id="dashboardView" class="screen-view">
+    
+    <!-- Cinematic Sanctuary Hero Section (Inspired by Photo 1 & 2) -->
+    <div class="hero-sanctuary-section">
+      <div class="hero-sub-quote">A guided breathing reset & mindfulness history</div>
+      <h1 class="hero-main-title">Find Stillness Within, and Let Growth Begin</h1>
+      <p class="hero-description">Quiet the noise. Let your thoughts settle and your breath lead the way.</p>
 
-    <!-- SCREEN 1: PERSONAL USER DASHBOARD -->
-    <section id="dashboardView" class="screen-view">
-      
-      <!-- Ethereal Hero Mood Banner -->
-      <div class="hero-stillness-banner">
-        <div class="hero-breath-orb"></div>
-        <h1 class="hero-title">Find Stillness Within, and Let Growth Begin</h1>
-        <p class="hero-subtitle">Quiet the noise. Let your thoughts settle and your breath lead the way.</p>
+      <!-- Floating Practitioner Capsule (Join Waitlist / Search Pill in Reference Photo) -->
+      <div class="practitioner-search-capsule">
+        <span class="capsule-label">Practitioner:</span>
+        <select id="userSelect" class="capsule-select" aria-label="Select User Profile"></select>
+        <button id="btnScrollStats" class="btn-capsule-action">View History</button>
       </div>
+    </div>
 
-      <!-- User Control Bar -->
-      <div class="user-control-bar">
-        <div class="user-selector-group">
-          <div id="userAvatarSlot" class="user-avatar-badge">FQ</div>
-          <div class="user-select-container">
-            <span class="user-select-label">Active Practitioner</span>
-            <div class="custom-select-wrapper">
-              <select id="userSelect" aria-label="Select User Profile"></select>
-            </div>
+    <main class="main-content">
+
+      <!-- Active Practitioner Status Bar -->
+      <div class="user-status-bar">
+        <div class="user-identity-wrap">
+          <div id="userAvatarSlot" class="user-avatar-disc">FQ</div>
+          <div>
+            <div id="userNameTitle" class="user-name-title">Loading practitioner...</div>
+            <div id="userMetaTags" class="user-meta-tags"></div>
           </div>
-          <div id="userMetaPills" class="user-meta-pills"></div>
         </div>
 
-        <div class="user-actions-group">
-          <button id="btnExportData" class="btn-pill" title="Export complete data under GDPR Article 20">
-            <span id="exportIconSlot"></span> Export History
+        <div class="user-gdpr-actions">
+          <button id="btnExportData" class="btn-secondary-action" title="Export complete data under GDPR Article 20">
+            <span id="exportIconSlot"></span> Export Data
           </button>
-          <button id="btnEraseUser" class="btn-pill btn-pill-danger" title="Permanently delete all personal history under GDPR Article 17">
-            <span id="eraseIconSlot"></span> Erase Data
+          <button id="btnEraseUser" class="btn-secondary-action btn-danger-action" title="Permanently delete all personal history under GDPR Article 17">
+            <span id="eraseIconSlot"></span> Erase Me
           </button>
         </div>
       </div>
 
       <!-- Top Metric Cards Grid -->
-      <div class="metrics-grid">
-        <div class="metric-card highlight-card">
-          <div class="metric-header">
-            <span class="metric-label">Current Streak</span>
-            <div id="iconCurrentStreak" class="metric-icon-box"></div>
+      <div id="statsSection" class="metrics-grid">
+        <div class="metric-card gold-highlight">
+          <div class="metric-card-top">
+            <span class="metric-card-label">Current Streak</span>
+            <div id="iconCurrentStreak" class="metric-icon-circle"></div>
           </div>
-          <div id="metricCurrentStreak" class="metric-number">0d</div>
-          <div class="metric-footer">Consecutive days with completed reset</div>
+          <div id="metricCurrentStreak" class="metric-big-number">0d</div>
+          <div class="metric-sub-label">Consecutive days with completed scored reset</div>
         </div>
 
         <div class="metric-card">
-          <div class="metric-header">
-            <span class="metric-label">Best Streak</span>
-            <div id="iconBestStreak" class="metric-icon-box"></div>
+          <div class="metric-card-top">
+            <span class="metric-card-label">Best Streak</span>
+            <div id="iconBestStreak" class="metric-icon-circle"></div>
           </div>
-          <div id="metricBestStreak" class="metric-number">0d</div>
-          <div class="metric-footer">Longest consecutive streak recorded</div>
+          <div id="metricBestStreak" class="metric-big-number">0d</div>
+          <div class="metric-sub-label">Longest consecutive streak recorded</div>
         </div>
 
         <div class="metric-card">
-          <div class="metric-header">
-            <span class="metric-label">Mindful Minutes</span>
-            <div id="iconMindfulMins" class="metric-icon-box"></div>
+          <div class="metric-card-top">
+            <span class="metric-card-label">Mindful Minutes</span>
+            <div id="iconMindfulMins" class="metric-icon-circle"></div>
           </div>
-          <div id="metricMindfulMins" class="metric-number">0</div>
-          <div class="metric-footer">Total duration across completed resets</div>
+          <div id="metricMindfulMins" class="metric-big-number">0</div>
+          <div class="metric-sub-label">Total duration across completed resets</div>
         </div>
 
         <div class="metric-card">
-          <div class="metric-header">
-            <span class="metric-label">Thoughts Gathered</span>
-            <div id="iconThoughts" class="metric-icon-box"></div>
+          <div class="metric-card-top">
+            <span class="metric-card-label">Thoughts Gathered</span>
+            <div id="iconThoughts" class="metric-icon-circle"></div>
           </div>
-          <div id="metricThoughts" class="metric-number">0</div>
-          <div class="metric-footer">Mindful shapes gathered on exhales</div>
+          <div id="metricThoughts" class="metric-big-number">0</div>
+          <div class="metric-sub-label">Mindful shapes gathered on exhales</div>
         </div>
 
         <div class="metric-card">
-          <div class="metric-header">
-            <span class="metric-label">Completed Resets</span>
-            <div id="iconCompleted" class="metric-icon-box"></div>
+          <div class="metric-card-top">
+            <span class="metric-card-label">Completed Resets</span>
+            <div id="iconCompleted" class="metric-icon-circle"></div>
           </div>
-          <div id="metricCompleted" class="metric-number">0 / 0</div>
-          <div class="metric-footer">Completed / Total Sessions</div>
+          <div id="metricCompleted" class="metric-big-number">0 / 0</div>
+          <div class="metric-sub-label">Completed / Total Sessions</div>
         </div>
       </div>
 
       <!-- Badges & Milestone Tokens -->
-      <section class="content-card-section">
-        <div class="section-headline">
-          <div class="section-title-wrap">
-            <h2 class="section-title">Milestones & Honors</h2>
-          </div>
+      <section class="luxury-content-card">
+        <div class="card-header-bar">
+          <h2 class="card-header-title">Milestones & Honors</h2>
           <span style="font-size: 0.75rem; color: var(--text-muted);">Awarded once, dated to qualifying session</span>
         </div>
-        <div id="badgeShelfContainer" class="badge-grid"></div>
+        <div id="badgeShelfContainer" class="badge-tokens-grid"></div>
       </section>
 
       <!-- 6-Week Activity Heatmap -->
-      <section class="content-card-section">
-        <div class="section-headline">
-          <div class="section-title-wrap">
-            <h2 class="section-title">Practice Consistency</h2>
-          </div>
+      <section class="luxury-content-card">
+        <div class="card-header-bar">
+          <h2 class="card-header-title">Practice Consistency</h2>
           <span style="font-size: 0.75rem; color: var(--text-muted);">42-day rolling window (local timezone)</span>
         </div>
-        <div id="heatmapGrid" class="heatmap-container"></div>
+        <div id="heatmapGrid" class="consistency-heatmap-grid"></div>
       </section>
 
       <!-- Session History Timeline -->
-      <section class="content-card-section">
-        <div class="section-headline">
-          <div class="section-title-wrap">
-            <h2 class="section-title">Session History</h2>
-          </div>
-          <div class="session-filters">
-            <button class="filter-tab active" data-filter="all">All</button>
-            <button class="filter-tab" data-filter="scored">Scored</button>
-            <button class="filter-tab" data-filter="practice">Practice</button>
+      <section class="luxury-content-card">
+        <div class="card-header-bar">
+          <h2 class="card-header-title">Session History</h2>
+          <div class="timeline-filters">
+            <button class="filter-pill-tab active" data-filter="all">All</button>
+            <button class="filter-pill-tab" data-filter="scored">Scored</button>
+            <button class="filter-pill-tab" data-filter="practice">Practice</button>
           </div>
         </div>
-        <div id="sessionsList" class="timeline-list"></div>
+        <div id="sessionsList" class="timeline-cards-flow"></div>
       </section>
 
-    </section>
+    </main>
+  </section>
 
-    <!-- SCREEN 2: COMMUNITY & OPS HEALTH -->
-    <section id="communityView" class="screen-view" style="display: none;">
+  <!-- SCREEN 2: COMMUNITY & OPS HEALTH -->
+  <section id="communityView" class="screen-view" style="display: none;">
+    <main class="main-content" style="margin-top: 2rem;">
       
       <!-- Operations Summary Counters -->
       <div class="ops-summary-grid">
@@ -259,9 +259,8 @@
         </table>
       </section>
 
-    </section>
-
-  </main>
+    </main>
+  </section>
 
   <script type="module" src="/js/app.js"></script>
 </body>

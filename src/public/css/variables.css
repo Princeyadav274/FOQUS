@@ -1,28 +1,28 @@
 :root {
-  /* Ethereal Dark Palette inspired by high-end wellness & Solvana */
-  --bg-primary: #07090e;
-  --bg-secondary: #0d121d;
-  --bg-surface: rgba(15, 22, 36, 0.55);
-  --bg-surface-hover: rgba(22, 32, 51, 0.75);
-  --bg-card: rgba(18, 26, 42, 0.5);
-  --bg-card-border: rgba(255, 255, 255, 0.08);
-  --bg-card-glow: rgba(16, 185, 129, 0.05);
+  /* Luxury Dark Sanctuary Palette inspired by reference designs */
+  --bg-primary: #06080d;
+  --bg-secondary: #0b0f19;
+  --bg-surface: rgba(14, 20, 32, 0.65);
+  --bg-surface-hover: rgba(20, 28, 45, 0.85);
+  --bg-card: rgba(16, 23, 37, 0.55);
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+  --border-active: 1px solid rgba(255, 255, 255, 0.2);
+  --border-gold: 1px solid rgba(245, 158, 11, 0.4);
 
   /* Typography Colors */
-  --text-hero: #fbfbfb;
+  --text-hero: #fbfbfd;
   --text-primary: #e2e8f0;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --text-subtle: #475569;
 
-  /* Refined Accent Colors */
+  /* Accent Colors */
+  --accent-gold: #f59e0b;
+  --accent-gold-glow: rgba(245, 158, 11, 0.3);
   --accent-sage: #10b981;
-  --accent-sage-glow: rgba(16, 185, 129, 0.25);
-  --accent-gold: #eab308;
-  --accent-gold-glow: rgba(234, 179, 8, 0.25);
-  --accent-dawn: #f59e0b;
+  --accent-sage-glow: rgba(16, 185, 129, 0.3);
   --accent-cyan: #06b6d4;
-  --accent-cyan-glow: rgba(6, 182, 212, 0.2);
+  --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+  --accent-pill: #38bdf8;
   --accent-danger: #f43f5e;
   --accent-purple: #a855f7;
 
@@ -31,21 +31,16 @@
   --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Borders & Radius */
+  /* Geometry & Shadows */
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
 
-  --border-subtle: 1px solid rgba(255, 255, 255, 0.07);
-  --border-active: 1px solid rgba(255, 255, 255, 0.18);
-  --border-gold: 1px solid rgba(234, 179, 8, 0.35);
-
-  /* Shadows */
-  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
-  --shadow-gold: 0 0 35px -5px rgba(234, 179, 8, 0.2);
-  --shadow-sage: 0 0 35px -5px rgba(16, 185, 129, 0.2);
+  --shadow-card: 0 12px 36px -4px rgba(0, 0, 0, 0.65);
+  --shadow-gold: 0 0 30px -4px var(--accent-gold-glow);
+  --shadow-sage: 0 0 30px -4px var(--accent-sage-glow);
 }
 
 * {
@@ -61,25 +56,5 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(234, 179, 8, 0.07) 0%, transparent 60%),
-    radial-gradient(circle at 15% 25%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
-    radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.05) 0%, transparent 60%);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
-}
-
-/* Subtle background noise texture simulation */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: 24px 24px;
-  opacity: 0.5;
-  z-index: 0;
 }

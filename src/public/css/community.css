@@ -50,7 +50,7 @@
 
 /* Neumorphic Terminal Window */
 .terminal-window {
-  background: #080a0e;
+  background: var(--neu-base);
   box-shadow: var(--neu-pressed);
   border: 1px solid var(--neu-border);
   border-radius: var(--radius-sm);
@@ -58,11 +58,16 @@
   font-family: var(--font-mono);
   font-size: 0.8rem;
   line-height: 1.6;
-  color: #38bdf8;
+  color: #0369a1;
   max-height: 200px;
   overflow-y: auto;
   white-space: pre-wrap;
   margin-top: 1rem;
+}
+
+[data-theme="dark"] .terminal-window {
+  background: #080a0e;
+  color: #38bdf8;
 }
 
 /* Neumorphic Table Panel */
@@ -81,17 +86,29 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .clean-table th {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .clean-table td {
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   color: var(--text-primary);
 }
 
+[data-theme="dark"] .clean-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
 .clean-table tr:hover td {
-  background: var(--bg-hover);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .clean-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .region-chip {
@@ -105,6 +122,7 @@
   box-shadow: var(--neu-pressed-sm);
   color: var(--accent-cyan);
   font-family: var(--font-mono);
+  font-weight: 500;
 }
 
 .anonymized-shield-chip {
@@ -117,10 +135,11 @@
   background: var(--neu-base);
   box-shadow: var(--neu-pressed-sm);
   color: var(--accent-emerald);
+  font-weight: 500;
 }
 
 .reason-tag {
-  color: #fb7185;
+  color: var(--accent-rose);
   font-size: 0.78rem;
   font-family: var(--font-mono);
 }

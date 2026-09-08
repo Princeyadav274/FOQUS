@@ -1,32 +1,38 @@
 :root {
-  /* Dark Neumorphic Palette */
-  --bg: #0e1118;
-  --neu-base: #11141d;
-  --neu-surface: #131722;
-  --neu-dark: rgba(0, 0, 0, 0.7);
-  --neu-light: rgba(255, 255, 255, 0.045);
-  --neu-border: rgba(255, 255, 255, 0.03);
+  /* ==========================================================================
+     Light Mode Neumorphic Palette (Default)
+     ========================================================================== */
+  --bg: #e6ebf2;
+  --neu-base: #e6ebf2;
+  --neu-surface: #e6ebf2;
+  --neu-dark: rgba(163, 177, 198, 0.7);
+  --neu-light: #ffffff;
+  --neu-border: rgba(255, 255, 255, 0.6);
 
   /* Extruded & Inset Shadow Sets */
-  --neu-extruded: 7px 7px 16px var(--neu-dark), -6px -6px 14px var(--neu-light);
-  --neu-extruded-sm: 4px 4px 10px var(--neu-dark), -3px -3px 8px var(--neu-light);
-  --neu-pressed: inset 4px 4px 8px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
+  --neu-extruded: 7px 7px 16px var(--neu-dark), -7px -7px 16px var(--neu-light);
+  --neu-extruded-sm: 4px 4px 10px var(--neu-dark), -4px -4px 10px var(--neu-light);
+  --neu-pressed: inset 4px 4px 8px var(--neu-dark), inset -4px -4px 8px var(--neu-light);
   --neu-pressed-sm: inset 2px 2px 5px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
 
   /* Typography Colors */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
   --text-muted: #64748b;
-  --text-dim: #475569;
+  --text-dim: #94a3b8;
 
   /* Accents */
-  --accent-gold: #eab308;
-  --accent-gold-soft: rgba(234, 179, 8, 0.15);
-  --accent-emerald: #10b981;
-  --accent-emerald-soft: rgba(16, 185, 129, 0.15);
-  --accent-rose: #f43f5e;
-  --accent-cyan: #06b6d4;
-  --accent-purple: #a855f7;
+  --accent-gold: #b45309;
+  --accent-gold-soft: rgba(180, 83, 9, 0.12);
+  --accent-emerald: #059669;
+  --accent-emerald-soft: rgba(5, 150, 105, 0.12);
+  --accent-rose: #e11d48;
+  --accent-cyan: #0284c7;
+  --accent-purple: #7c3aed;
+
+  /* Hero Atmospheric Backdrop */
+  --hero-overlay: linear-gradient(180deg, rgba(230, 235, 242, 0.35) 0%, rgba(230, 235, 242, 0.96) 90%);
+  --hero-img: url('/assets/hero-sanctuary.jpg');
 
   /* Typography */
   --font-serif: 'Newsreader', Georgia, serif;
@@ -39,6 +45,39 @@
   --radius-md: 16px;
   --radius-lg: 22px;
   --radius-full: 9999px;
+}
+
+[data-theme="dark"] {
+  /* ==========================================================================
+     Dark Mode Neumorphic Palette
+     ========================================================================== */
+  --bg: #0e1118;
+  --neu-base: #11141d;
+  --neu-surface: #131722;
+  --neu-dark: rgba(0, 0, 0, 0.7);
+  --neu-light: rgba(255, 255, 255, 0.045);
+  --neu-border: rgba(255, 255, 255, 0.03);
+
+  --neu-extruded: 7px 7px 16px var(--neu-dark), -6px -6px 14px var(--neu-light);
+  --neu-extruded-sm: 4px 4px 10px var(--neu-dark), -3px -3px 8px var(--neu-light);
+  --neu-pressed: inset 4px 4px 8px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
+  --neu-pressed-sm: inset 2px 2px 5px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-dim: #475569;
+
+  --accent-gold: #eab308;
+  --accent-gold-soft: rgba(234, 179, 8, 0.15);
+  --accent-emerald: #10b981;
+  --accent-emerald-soft: rgba(16, 185, 129, 0.15);
+  --accent-rose: #f43f5e;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #a855f7;
+
+  --hero-overlay: linear-gradient(180deg, rgba(14, 17, 24, 0.3) 0%, rgba(14, 17, 24, 0.95) 90%);
+  --hero-img: url('/assets/hero-solvana.jpg');
 }
 
 * {
@@ -54,4 +93,5 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }

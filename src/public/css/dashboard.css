@@ -25,11 +25,10 @@
 .brand-symbol {
   font-family: var(--font-serif);
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.14em;
-  color: #ffffff;
+  color: var(--text-primary);
   text-transform: uppercase;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 /* Neumorphic Inset User Picker Well */
@@ -64,8 +63,8 @@
 }
 
 .user-select-input option {
-  background: #141722;
-  color: #ffffff;
+  background: var(--neu-base);
+  color: var(--text-primary);
 }
 
 .user-timezone-tag {
@@ -117,12 +116,14 @@
 .view-btn.active {
   background: var(--neu-surface);
   box-shadow: var(--neu-extruded-sm);
-  color: #ffffff;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 /* Tactile Neumorphic Buttons */
 .nav-right-actions {
   display: flex;
+  align-items: center;
   gap: 0.75rem;
 }
 
@@ -143,7 +144,7 @@
 }
 
 .action-btn:hover {
-  color: #ffffff;
+  color: var(--text-primary);
   transform: translateY(-1px);
   box-shadow: 6px 6px 14px var(--neu-dark), -5px -5px 12px var(--neu-light);
 }
@@ -179,8 +180,8 @@
   padding: 2.5rem 3rem;
   margin-bottom: 2.5rem;
   background: 
-    linear-gradient(180deg, rgba(14, 17, 24, 0.3) 0%, rgba(14, 17, 24, 0.95) 90%),
-    url('/assets/hero-solvana.jpg') center 40% / cover no-repeat;
+    var(--hero-overlay),
+    var(--hero-img) center 40% / cover no-repeat;
   box-shadow: var(--neu-extruded);
   border: 1px solid var(--neu-border);
 }
@@ -188,12 +189,11 @@
 .hero-quote {
   font-family: var(--font-serif);
   font-size: 2.1rem;
-  font-weight: 400;
-  color: #ffffff;
+  font-weight: 500;
+  color: var(--text-primary);
   line-height: 1.25;
   letter-spacing: -0.01em;
   margin-bottom: 0.4rem;
-  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8);
 }
 
 .hero-sub {
@@ -230,7 +230,7 @@
 }
 
 .stat-box.streak-active {
-  border-color: rgba(234, 179, 8, 0.2);
+  border-color: rgba(180, 83, 9, 0.3);
 }
 
 .stat-label {
@@ -249,13 +249,12 @@
   font-family: var(--font-sans);
   font-size: 2.3rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1;
 }
 
 .stat-box.streak-active .stat-val {
-  color: #fef08a;
-  text-shadow: 0 0 20px var(--accent-gold-soft);
+  color: var(--accent-gold);
 }
 
 .stat-desc {
@@ -286,7 +285,7 @@
 .section-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
   letter-spacing: -0.01em;
 }
 
@@ -315,7 +314,7 @@
 }
 
 .badge-tile.unlocked {
-  border-color: rgba(234, 179, 8, 0.2);
+  border-color: rgba(180, 83, 9, 0.3);
 }
 
 .badge-tile.unlocked:hover {
@@ -346,7 +345,7 @@
 .badge-info-wrap h4 {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .badge-info-wrap p {
@@ -360,7 +359,7 @@
   font-size: 0.7rem;
   color: var(--accent-gold);
   margin-top: 0.3rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* 42-Day Consistency Heatmap in Neumorphic Tray */
@@ -383,10 +382,14 @@
   aspect-ratio: 1;
   min-width: 17px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.06);
   box-shadow: var(--neu-pressed-sm);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   cursor: pointer;
+}
+
+[data-theme="dark"] .heat-cell {
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .heat-cell:hover {
@@ -434,7 +437,8 @@
 .filter-btn-simple.active {
   background: var(--neu-surface);
   box-shadow: var(--neu-extruded-sm);
-  color: #ffffff;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 /* History Rows */
@@ -482,8 +486,8 @@
 }
 
 .history-meta-title {
-  color: #ffffff;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .history-meta-sub {

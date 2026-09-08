@@ -181,6 +181,7 @@ Commit as you go. We read the history.
 ## What we look at
 
 Whether it runs from the README. Whether the two rules hold. Whether the held-back log gives
+
 sensible numbers. Whether the code is honest about what it does not handle. How the two screens
 feel. How you talk about your own work.
 

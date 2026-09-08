@@ -15,7 +15,7 @@ export class SyncStore {
     this.sessionsByUser = new Map();   // canonUserId -> Set(sessionId)
     this.identityGraph = new IdentityGraph();
     this.erasedUsers = new Set();      // Set of erased identifiers
-    
+
     // Triage Logs
     this.acceptedRecords = [];
     this.deduplicatedRecords = [];
@@ -84,9 +84,16 @@ export class SyncStore {
       this.statusCounts[SYNC_STATUS.QUARANTINED]++;
       const reason = validation.reason || 'Validation failed';
       this.quarantineReasons.set(reason, (this.quarantineReasons.get(reason) || 0) + 1);
+
+      // Rule 2: Private feedback comments must never leak into quarantine or triage logs
+      const sanitizedRecord = record && typeof record === 'object' ? { ...record } : record;
+      if (sanitizedRecord && sanitizedRecord.feedbackComment !== undefined) {
+        delete sanitizedRecord.feedbackComment;
+      }
+
       this.quarantinedRecords.push({
         id: `quar_${this.quarantinedRecords.length + 1}`,
-        record,
+        record: sanitizedRecord,
         reason,
         receivedAt: record?.received_at || new Date().toISOString()
       });
@@ -96,8 +103,15 @@ export class SyncStore {
     if (validation.status === SYNC_STATUS.DEDUPLICATED) {
       this.statusCounts[SYNC_STATUS.DEDUPLICATED]++;
       const reason = validation.reason || 'Duplicate record ignored';
+
+      // Rule 2: Private feedback comments must never leak into deduplication or triage logs
+      const sanitizedRecord = record && typeof record === 'object' ? { ...record } : record;
+      if (sanitizedRecord && sanitizedRecord.feedbackComment !== undefined) {
+        delete sanitizedRecord.feedbackComment;
+      }
+
       this.deduplicatedRecords.push({
-        record,
+        record: sanitizedRecord,
         reason,
         receivedAt: record?.received_at || new Date().toISOString()
       });
@@ -159,7 +173,7 @@ export class SyncStore {
     for (const id of allIds) {
       this.erasedUsers.add(id);
       this.profiles.delete(id);
-      
+
       const sessionIds = this.sessionsByUser.get(id) || new Set();
       for (const sid of sessionIds) {
         this.sessions.delete(sid);
@@ -187,7 +201,7 @@ export class SyncStore {
   getUserSessions(userId) {
     const canon = this.identityGraph.getCanonicalId(userId);
     if (this.erasedUsers.has(canon)) return [];
-    
+
     const sessionIds = this.sessionsByUser.get(canon) || new Set();
     const result = [];
     for (const sid of sessionIds) {
@@ -290,7 +304,7 @@ export class SyncStore {
    * Summary of sync health, counts, and quarantine reasons.
    */
   getHealthSummary() {
-    const totalProcessed = 
+    const totalProcessed =
       this.statusCounts[SYNC_STATUS.ACCEPTED] +
       this.statusCounts[SYNC_STATUS.DEDUPLICATED] +
       this.statusCounts[SYNC_STATUS.QUARANTINED];

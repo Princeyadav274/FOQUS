@@ -29,6 +29,21 @@ usersRouter.get('/:id', (req, res) => {
 });
 
 /**
+ * GET /api/users/:id/history
+ * Returns session history and stats for a person.
+ */
+usersRouter.get('/:id/history', (req, res) => {
+  const userId = req.params.id;
+  const userData = globalStore.getUserStats(userId);
+
+  if (!userData) {
+    return res.status(404).json({ error: `User '${userId}' not found or has been erased` });
+  }
+
+  return res.json(userData);
+});
+
+/**
  * GET /api/users/:id/export
  * GDPR Data Portability: Exports complete record payload.
  */

@@ -9,7 +9,8 @@
     "dev": "node src/server/server.js",
     "test": "node --test test/*.test.js",
     "replay": "node scripts/replay.js fixtures/sync-log.jsonl",
-    "test:concurrency": "node scripts/concurrent-test.js"
+    "test:concurrency": "node scripts/concurrent-test.js",
+    "verify": "node scripts/verify-correctness.js"
   },
   "keywords": [
     "foqus",

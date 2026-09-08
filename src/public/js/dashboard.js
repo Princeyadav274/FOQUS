@@ -41,15 +41,26 @@ async function loadUserList() {
     users.forEach((u) => {
       const opt = document.createElement('option');
       opt.value = u.userId;
-      opt.textContent = `${u.nickname} (${u.sessionCount} resets)`;
+      const tz = u.timezone || 'UTC';
+      opt.dataset.timezone = tz;
+      opt.textContent = `${u.nickname} (${u.sessionCount} resets • ${tz})`;
       select.appendChild(opt);
     });
 
     currentUserId = users[0].userId;
     select.value = currentUserId;
 
+    const updateTimezoneTag = () => {
+      const selectedOpt = select.options[select.selectedIndex];
+      const tz = selectedOpt?.dataset?.timezone || 'UTC';
+      const tzElem = document.getElementById('userTimezoneText');
+      if (tzElem) tzElem.textContent = tz;
+    };
+    updateTimezoneTag();
+
     select.addEventListener('change', (e) => {
       currentUserId = e.target.value;
+      updateTimezoneTag();
       renderUserDashboard(currentUserId);
     });
 

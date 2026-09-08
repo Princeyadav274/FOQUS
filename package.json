@@ -1,0 +1,27 @@
+{
+  "name": "foqus-sync",
+  "version": "1.0.0",
+  "description": "FoQus Sync — Full-stack session synchronization, metrics, and community engine",
+  "main": "src/server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server/server.js",
+    "dev": "node src/server/server.js",
+    "test": "node --test test/*.test.js",
+    "replay": "node scripts/replay.js fixtures/sync-log.jsonl",
+    "test:concurrency": "node scripts/concurrent-test.js"
+  },
+  "keywords": [
+    "foqus",
+    "sync",
+    "streaks",
+    "mindfulness",
+    "idempotency"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

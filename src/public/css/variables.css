@@ -1,46 +1,44 @@
 :root {
-  /* Luxury Dark Sanctuary Palette inspired by reference designs */
-  --bg-primary: #06080d;
-  --bg-secondary: #0b0f19;
-  --bg-surface: rgba(14, 20, 32, 0.65);
-  --bg-surface-hover: rgba(20, 28, 45, 0.85);
-  --bg-card: rgba(16, 23, 37, 0.55);
-  --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
-  --border-active: 1px solid rgba(255, 255, 255, 0.2);
-  --border-gold: 1px solid rgba(245, 158, 11, 0.4);
+  /* Dark Neumorphic Palette */
+  --bg: #0e1118;
+  --neu-base: #11141d;
+  --neu-surface: #131722;
+  --neu-dark: rgba(0, 0, 0, 0.7);
+  --neu-light: rgba(255, 255, 255, 0.045);
+  --neu-border: rgba(255, 255, 255, 0.03);
+
+  /* Extruded & Inset Shadow Sets */
+  --neu-extruded: 7px 7px 16px var(--neu-dark), -6px -6px 14px var(--neu-light);
+  --neu-extruded-sm: 4px 4px 10px var(--neu-dark), -3px -3px 8px var(--neu-light);
+  --neu-pressed: inset 4px 4px 8px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
+  --neu-pressed-sm: inset 2px 2px 5px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
 
   /* Typography Colors */
-  --text-hero: #fbfbfd;
-  --text-primary: #e2e8f0;
+  --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
+  --text-dim: #475569;
 
-  /* Accent Colors */
-  --accent-gold: #f59e0b;
-  --accent-gold-glow: rgba(245, 158, 11, 0.3);
-  --accent-sage: #10b981;
-  --accent-sage-glow: rgba(16, 185, 129, 0.3);
+  /* Accents */
+  --accent-gold: #eab308;
+  --accent-gold-soft: rgba(234, 179, 8, 0.15);
+  --accent-emerald: #10b981;
+  --accent-emerald-soft: rgba(16, 185, 129, 0.15);
+  --accent-rose: #f43f5e;
   --accent-cyan: #06b6d4;
-  --accent-cyan-glow: rgba(6, 182, 212, 0.25);
-  --accent-pill: #38bdf8;
-  --accent-danger: #f43f5e;
   --accent-purple: #a855f7;
 
   /* Typography */
-  --font-serif: 'Newsreader', 'Fraunces', 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-  /* Geometry & Shadows */
+  /* Smooth Corner Radii */
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-lg: 22px;
   --radius-full: 9999px;
-
-  --shadow-card: 0 12px 36px -4px rgba(0, 0, 0, 0.65);
-  --shadow-gold: 0 0 30px -4px var(--accent-gold-glow);
-  --shadow-sage: 0 0 30px -4px var(--accent-sage-glow);
 }
 
 * {
@@ -51,10 +49,9 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-primary);
+  background-color: var(--bg);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.5;
   min-height: 100vh;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }

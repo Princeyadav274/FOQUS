@@ -11,27 +11,19 @@ export async function initDashboard() {
 }
 
 function injectStaticIcons() {
-  const brandLogoSlot = document.getElementById('brandLogoSlot');
-  if (brandLogoSlot) brandLogoSlot.innerHTML = icons.logoMark;
-
-  const tabPracticeIcon = document.getElementById('tabPracticeIcon');
-  if (tabPracticeIcon) tabPracticeIcon.innerHTML = icons.practice;
-  const tabCommunityIcon = document.getElementById('tabCommunityIcon');
-  if (tabCommunityIcon) tabCommunityIcon.innerHTML = icons.globe;
-
   const exportIconSlot = document.getElementById('exportIconSlot');
   if (exportIconSlot) exportIconSlot.innerHTML = icons.download;
   const eraseIconSlot = document.getElementById('eraseIconSlot');
   if (eraseIconSlot) eraseIconSlot.innerHTML = icons.trash;
 
+  const iconCurrentStreak = document.getElementById('iconCurrentStreak');
+  if (iconCurrentStreak) iconCurrentStreak.innerHTML = icons.flame;
   const iconBestStreak = document.getElementById('iconBestStreak');
   if (iconBestStreak) iconBestStreak.innerHTML = icons.trophy;
+  const iconMindfulMins = document.getElementById('iconMindfulMins');
+  if (iconMindfulMins) iconMindfulMins.innerHTML = icons.clock;
   const iconThoughts = document.getElementById('iconThoughts');
   if (iconThoughts) iconThoughts.innerHTML = icons.sparkles;
-  const iconCompleted = document.getElementById('iconCompleted');
-  if (iconCompleted) iconCompleted.innerHTML = icons.checkCircle;
-  const iconMindfulMinsSlot = document.getElementById('iconMindfulMinsSlot');
-  if (iconMindfulMinsSlot) iconMindfulMinsSlot.innerHTML = icons.clock;
 }
 
 async function loadUserList() {
@@ -42,14 +34,14 @@ async function loadUserList() {
 
     select.innerHTML = '';
     if (users.length === 0) {
-      select.innerHTML = '<option value="">No practitioners found</option>';
+      select.innerHTML = '<option value="">No users found</option>';
       return;
     }
 
     users.forEach((u) => {
       const opt = document.createElement('option');
       opt.value = u.userId;
-      opt.textContent = `${u.nickname} (${u.sessionCount} resets) • ${u.timezone}`;
+      opt.textContent = `${u.nickname} (${u.sessionCount} resets)`;
       select.appendChild(opt);
     });
 
@@ -75,23 +67,14 @@ export async function renderUserDashboard(userId) {
     const data = await api.getUserDetails(userId);
     currentUserData = data;
 
-    const avatarSlot = document.getElementById('userAvatarSlot');
-    if (avatarSlot) {
-      const initials = (data.user.nickname || 'FQ').slice(0, 2).toUpperCase();
-      avatarSlot.textContent = initials;
+    const subTitle = document.getElementById('userMetaSubtitle');
+    if (subTitle) {
+      subTitle.textContent = `${data.user.nickname} (${data.user.userId}) • ${data.user.timezone} • ${data.stats.totalSessions} Total Resets (${data.stats.mindfulMinutes}m)`;
     }
 
-    const nameTitle = document.getElementById('userNameTitle');
-    if (nameTitle) {
-      nameTitle.textContent = `${data.user.nickname} (${data.user.userId})`;
-    }
-
-    const userMetaTags = document.getElementById('userMetaTags');
-    if (userMetaTags) {
-      userMetaTags.innerHTML = `
-        <span class="meta-tag">📍 ${data.user.timezone}</span>
-        <span class="meta-tag">• Account: ${data.user.profileMode}</span>
-      `;
+    const tzDisplay = document.getElementById('userTzDisplay');
+    if (tzDisplay) {
+      tzDisplay.textContent = `Timezone: ${data.user.timezone}`;
     }
 
     const { stats } = data;
@@ -99,12 +82,6 @@ export async function renderUserDashboard(userId) {
     document.getElementById('metricBestStreak').textContent = `${stats.bestStreak}d`;
     document.getElementById('metricMindfulMins').textContent = stats.mindfulMinutes;
     document.getElementById('metricThoughts').textContent = stats.totalThoughts.toLocaleString();
-    document.getElementById('metricCompleted').textContent = `${stats.completedSessions} / ${stats.totalSessions}`;
-    
-    const hoursElem = document.getElementById('metricHoursTotal');
-    if (hoursElem) {
-      hoursElem.textContent = `${(stats.mindfulMinutes / 60).toFixed(1)}h`;
-    }
 
     renderBadges(stats.badges, stats);
     renderHeatmap(data.sessions, data.user.timezone);
@@ -127,30 +104,30 @@ function renderBadges(awardedBadges, stats) {
     {
       id: 'first_reset',
       name: 'First Reset',
-      desc: 'First completed scored breathing session',
+      desc: 'First completed scored session',
       iconSvg: icons.badges.first_reset,
-      progress: stats.scoredSessions >= 1 ? 'Unlocked' : `${stats.scoredSessions}/1 scored reset`
+      progress: stats.scoredSessions >= 1 ? 'Earned' : `${stats.scoredSessions}/1 scored reset`
     },
     {
       id: '3_day_streak',
       name: '3-Day FoQus Streak',
-      desc: 'Consecutive daily practice reaches 3 days',
+      desc: 'Streak reaches 3 consecutive days',
       iconSvg: icons.badges['3_day_streak'],
-      progress: stats.bestStreak >= 3 ? 'Unlocked' : `Best: ${stats.bestStreak}/3 days`
+      progress: stats.bestStreak >= 3 ? 'Earned' : `Best: ${stats.bestStreak}/3 days`
     },
     {
       id: 'thought_gatherer',
       name: 'Thought Gatherer',
-      desc: '100 cumulative thoughts gathered on exhale',
+      desc: '100 thoughts gathered in total',
       iconSvg: icons.badges.thought_gatherer,
-      progress: stats.totalThoughts >= 100 ? 'Unlocked' : `${stats.totalThoughts}/100 thoughts`
+      progress: stats.totalThoughts >= 100 ? 'Earned' : `${stats.totalThoughts}/100 thoughts`
     },
     {
       id: 'hour_of_calm',
       name: 'Hour of Calm',
-      desc: '60 cumulative mindful minutes completed',
+      desc: '60 mindful minutes completed',
       iconSvg: icons.badges.hour_of_calm,
-      progress: stats.mindfulMinutes >= 60 ? 'Unlocked' : `${stats.mindfulMinutes}/60 mins`
+      progress: stats.mindfulMinutes >= 60 ? 'Earned' : `${stats.mindfulMinutes}/60 mins`
     }
   ];
 
@@ -158,18 +135,18 @@ function renderBadges(awardedBadges, stats) {
     const isUnlocked = earnedMap.has(b.id);
     const badgeData = earnedMap.get(b.id);
     const dateStr = badgeData?.earnedAtIso 
-      ? new Date(badgeData.earnedAtIso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+      ? new Date(badgeData.earnedAtIso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
       : null;
 
     return `
-      <div class="badge-minimal-card ${isUnlocked ? 'unlocked' : 'locked'}">
-        <div class="badge-icon-minimal">${b.iconSvg}</div>
-        <div class="badge-meta-minimal">
+      <div class="badge-tile ${isUnlocked ? 'unlocked' : 'locked'}">
+        <div class="badge-icon-wrap">${b.iconSvg}</div>
+        <div class="badge-info-wrap">
           <h4>${b.name}</h4>
           <p>${b.desc}</p>
           ${isUnlocked 
-            ? `<div class="badge-earned-date">${icons.checkCircle} Earned on ${dateStr}</div>` 
-            : `<div class="badge-earned-date" style="color: var(--text-muted);">${icons.lock} ${b.progress}</div>`
+            ? `<div class="badge-status-tag">Unlocked on ${dateStr}</div>` 
+            : `<div class="badge-status-tag" style="color: var(--text-dim);">${b.progress}</div>`
           }
         </div>
       </div>
@@ -211,11 +188,11 @@ function renderHeatmap(sessions, timezone) {
 
   container.innerHTML = daysArray.map(item => {
     let lvlClass = '';
-    if (item.count === 1) lvlClass = 'lvl-1';
-    else if (item.count === 2) lvlClass = 'lvl-2';
-    else if (item.count >= 3) lvlClass = 'lvl-3';
+    if (item.count === 1) lvlClass = 'l1';
+    else if (item.count === 2) lvlClass = 'l2';
+    else if (item.count >= 3) lvlClass = 'l3';
 
-    return `<div class="heatmap-dot-minimal ${lvlClass}" title="${item.dayStr}: ${item.count} sessions completed"></div>`;
+    return `<div class="heat-cell ${lvlClass}" title="${item.dayStr}: ${item.count} resets"></div>`;
   }).join('');
 }
 
@@ -230,7 +207,7 @@ function renderSessionsList(sessions) {
   });
 
   if (filtered.length === 0) {
-    container.innerHTML = `<div style="color: var(--text-muted); padding: 2rem; text-align: center;">No sessions match selected filter.</div>`;
+    container.innerHTML = `<div style="color: var(--text-dim); padding: 1.5rem; text-align: center; font-size: 0.85rem;">No sessions recorded for selected filter.</div>`;
     return;
   }
 
@@ -245,26 +222,24 @@ function renderSessionsList(sessions) {
     });
 
     const isScored = s.sessionMode === 'scored' && !s.isPractice;
-    const calmVal = typeof s.calmScore === 'number' ? (s.calmScore * 100).toFixed(0) : null;
+    const calmVal = typeof s.calmScore === 'number' ? `${(s.calmScore * 100).toFixed(0)}%` : null;
 
     return `
-      <div class="minimal-session-row">
-        <div class="session-left-info">
-          <div class="duration-badge-minimal">${s.durationSelected}m ${isScored ? 'Scored' : 'Practice'}</div>
-          <div class="session-headline-info">
-            <h5>${s.intention || 'Reset'} • ${s.reflection || 'Calmer'}</h5>
-            <span>${dateStr} • Thoughts: ${s.thoughtsGathered || 0} • Steadiness: ${(s.averageSteadiness * 100).toFixed(0)}%</span>
-          </div>
+      <div class="history-item">
+        <div class="history-left">
+          <span class="tag-duration">${s.durationSelected}m</span>
+          <span class="history-meta-title">${s.intention || 'Reset'}</span>
+          <span class="history-meta-sub">${dateStr} • ${isScored ? 'Scored' : 'Practice'} • ${s.thoughtsGathered || 0} thoughts</span>
         </div>
-        <div class="session-right-badges">
+        <div class="history-right">
           ${isScored && calmVal !== null 
-            ? `<div class="calm-score-chip"><span>Calm ${calmVal}%</span></div>` 
+            ? `<span class="calm-badge">Calm ${calmVal}</span>` 
             : ''
           }
           ${s.feedbackComment 
-            ? `<div class="private-note-pill" title="Private note (Rule 2 protected)">
-                ${icons.lock} <span>"${escapeHtml(s.feedbackComment)}"</span>
-               </div>` 
+            ? `<span class="private-note-badge" title="Private note">
+                ${icons.lock} "${escapeHtml(s.feedbackComment)}"
+               </span>` 
             : ''
           }
         </div>
@@ -278,14 +253,7 @@ function escapeHtml(str) {
 }
 
 function setupActions() {
-  const btnScrollStats = document.getElementById('btnScrollStats');
-  if (btnScrollStats) {
-    btnScrollStats.addEventListener('click', () => {
-      document.getElementById('statsSection')?.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-
-  const filterBtns = document.querySelectorAll('.filter-pill');
+  const filterBtns = document.querySelectorAll('.filter-btn-simple');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       filterBtns.forEach(b => b.classList.remove('active'));
@@ -311,7 +279,7 @@ function setupActions() {
       const confirmed = confirm(`Are you sure you want to permanently erase all records for ${currentUserId}? Under GDPR Article 17, this action is irreversible.`);
       if (confirmed) {
         await api.eraseUser(currentUserId);
-        alert(`Practitioner account ${currentUserId} has been permanently erased.`);
+        alert(`User ${currentUserId} has been erased.`);
         await loadUserList();
       }
     });

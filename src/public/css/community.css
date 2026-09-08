@@ -1,33 +1,31 @@
-/* Screen 2: Community & Sync Health (Internal Ops) */
-
-.ops-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 2rem;
-}
+/* ==========================================================================
+   Screen 2: Community & Health (Neumorphic Operations Dashboard)
+   ========================================================================== */
 
 .ops-card {
-  background: var(--bg-surface);
-  border: var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  backdrop-filter: blur(20px);
-  box-shadow: var(--shadow-card);
-  position: relative;
-  overflow: hidden;
+  background: var(--neu-surface);
+  box-shadow: var(--neu-extruded);
+  border: 1px solid var(--neu-border);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.6rem;
+  transition: all 0.25s ease;
+}
+
+.ops-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 18px var(--neu-dark), -6px -6px 14px var(--neu-light);
 }
 
 .ops-card.status-accepted {
-  border-color: rgba(16, 185, 129, 0.25);
+  border-left: 3px solid var(--accent-emerald);
 }
 
 .ops-card.status-dedup {
-  border-color: rgba(6, 182, 212, 0.25);
+  border-left: 3px solid var(--accent-cyan);
 }
 
 .ops-card.status-quarantine {
-  border-color: rgba(244, 63, 94, 0.25);
+  border-left: 3px solid var(--accent-rose);
 }
 
 .ops-card-label {
@@ -35,10 +33,7 @@
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  letter-spacing: 0.06em;
 }
 
 .ops-card-value {
@@ -47,72 +42,17 @@
   font-weight: 700;
   line-height: 1;
   margin-top: 0.5rem;
-  color: var(--text-hero);
 }
 
-.val-accepted { color: var(--accent-sage); }
+.val-accepted { color: var(--accent-emerald); }
 .val-dedup { color: var(--accent-cyan); }
-.val-quarantine { color: var(--accent-danger); }
+.val-quarantine { color: var(--accent-rose); }
 
-/* Dev Control Terminal Box */
-.dev-terminal-section {
-  background: rgba(13, 18, 29, 0.7);
-  border: 1px solid rgba(168, 85, 247, 0.25);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem 2rem;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-card);
-}
-
-.dev-terminal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.dev-header-left h3 {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dev-header-left p {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  margin-top: 0.25rem;
-}
-
-.btn-trigger-stress {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(99, 102, 241, 0.8));
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 0.6rem 1.4rem;
-  border-radius: var(--radius-full);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
-}
-
-.btn-trigger-stress:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
+/* Neumorphic Terminal Window */
 .terminal-window {
-  background: #04060a;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #080a0e;
+  box-shadow: var(--neu-pressed);
+  border: 1px solid var(--neu-border);
   border-radius: var(--radius-sm);
   padding: 1.25rem;
   font-family: var(--font-mono);
@@ -122,69 +62,10 @@
   max-height: 200px;
   overflow-y: auto;
   white-space: pre-wrap;
+  margin-top: 1rem;
 }
 
-/* Telemetry Grid */
-.telemetry-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.telemetry-panel {
-  background: var(--bg-surface);
-  border: var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1.25rem 1.5rem;
-  backdrop-filter: blur(20px);
-}
-
-.telemetry-panel h4 {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  margin-bottom: 0.4rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.telemetry-panel .telemetry-stat {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--text-hero);
-  margin-bottom: 0.25rem;
-}
-
-.telemetry-panel p {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-/* Data Tables */
-.table-panel {
-  background: var(--bg-surface);
-  border: var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem 2rem;
-  margin-bottom: 2rem;
-  backdrop-filter: blur(20px);
-  box-shadow: var(--shadow-card);
-  overflow-x: auto;
-}
-
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: var(--border-subtle);
-}
-
+/* Neumorphic Table Panel */
 .clean-table {
   width: 100%;
   border-collapse: collapse;
@@ -193,36 +74,36 @@
 
 .clean-table th {
   text-align: left;
-  padding: 0.75rem 1rem;
-  background: rgba(13, 18, 29, 0.7);
+  padding: 0.85rem 1rem;
+  background: var(--neu-base);
   color: var(--text-muted);
   font-weight: 600;
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-bottom: var(--border-subtle);
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .clean-table td {
-  padding: 0.9rem 1rem;
+  padding: 0.85rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   color: var(--text-primary);
 }
 
 .clean-table tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-hover);
 }
 
 .region-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
-  background: rgba(6, 182, 212, 0.1);
+  background: var(--neu-base);
+  box-shadow: var(--neu-pressed-sm);
   color: var(--accent-cyan);
-  border: 1px solid rgba(6, 182, 212, 0.25);
   font-family: var(--font-mono);
 }
 
@@ -230,16 +111,16 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--accent-sage);
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: var(--neu-base);
+  box-shadow: var(--neu-pressed-sm);
+  color: var(--accent-emerald);
 }
 
 .reason-tag {
   color: #fb7185;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-family: var(--font-mono);
 }

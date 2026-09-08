@@ -9,7 +9,7 @@
   <!-- Editorial Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/dashboard.css">
@@ -17,39 +17,46 @@
 </head>
 <body>
 
-  <!-- App Header -->
+  <!-- Minimalist Wireframe Header -->
   <header class="app-header">
     <div class="brand-container">
-      <div id="brandLogoSlot" class="brand-icon-wrapper"></div>
+      <span class="brand-pipe">|</span>
       <span class="brand-title">FoQus</span>
-      <span class="brand-tagline">Mindfulness Sync</span>
+      <span class="brand-pipe">|</span>
     </div>
 
-    <!-- Screen Switcher Navigation Tabs -->
+    <!-- Center Minimalist Navigation Tabs -->
     <nav class="nav-tabs" aria-label="Screen navigation">
       <button id="tabDashboard" class="nav-tab-btn active" aria-controls="dashboardView">
-        <span id="tabPracticeIcon"></span> My Practice
+        My Practice
       </button>
       <button id="tabCommunity" class="nav-tab-btn" aria-controls="communityView">
-        <span id="tabCommunityIcon"></span> Community & Health
+        Community & Health
       </button>
     </nav>
+
+    <!-- Right Quick Actions -->
+    <div class="header-right-action">
+      <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Sync Active</span>
+    </div>
   </header>
 
   <!-- SCREEN 1: PERSONAL USER DASHBOARD -->
   <section id="dashboardView" class="screen-view">
     
-    <!-- Cinematic Sanctuary Hero Section (Inspired by Photo 1 & 2) -->
+    <!-- Hero Sanctuary Section (Photo 1 Inspired) -->
     <div class="hero-sanctuary-section">
-      <div class="hero-sub-quote">A guided breathing reset & mindfulness history</div>
+      <div class="corner-frame-top-left"></div>
+      <div class="corner-frame-bottom-right"></div>
+
+      <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.25em; color: rgba(255,255,255,0.7); margin-bottom: 1.25rem;">Mindfulness Ritual</div>
       <h1 class="hero-main-title">Find Stillness Within, and Let Growth Begin</h1>
       <p class="hero-description">Quiet the noise. Let your thoughts settle and your breath lead the way.</p>
 
-      <!-- Floating Practitioner Capsule (Join Waitlist / Search Pill in Reference Photo) -->
+      <!-- Floating Minimalist Practitioner Search Capsule -->
       <div class="practitioner-search-capsule">
-        <span class="capsule-label">Practitioner:</span>
-        <select id="userSelect" class="capsule-select" aria-label="Select User Profile"></select>
-        <button id="btnScrollStats" class="btn-capsule-action">View History</button>
+        <select id="userSelect" class="capsule-select" aria-label="Select Practitioner Profile"></select>
+        <button id="btnScrollStats" class="btn-capsule-action">Begin Journey ❇</button>
       </div>
     </div>
 
@@ -66,92 +73,107 @@
         </div>
 
         <div class="user-gdpr-actions">
-          <button id="btnExportData" class="btn-secondary-action" title="Export complete data under GDPR Article 20">
-            <span id="exportIconSlot"></span> Export Data
+          <button id="btnExportData" class="btn-minimal-action" title="Export complete data under GDPR Article 20">
+            <span id="exportIconSlot"></span> Export
           </button>
-          <button id="btnEraseUser" class="btn-secondary-action btn-danger-action" title="Permanently delete all personal history under GDPR Article 17">
-            <span id="eraseIconSlot"></span> Erase Me
+          <button id="btnEraseUser" class="btn-minimal-action btn-minimal-danger" title="Permanently delete all personal history under GDPR Article 17">
+            <span id="eraseIconSlot"></span> Erase
           </button>
         </div>
       </div>
 
-      <!-- Top Metric Cards Grid -->
-      <div id="statsSection" class="metrics-grid">
-        <div class="metric-card gold-highlight">
-          <div class="metric-card-top">
-            <span class="metric-card-label">Current Streak</span>
-            <div id="iconCurrentStreak" class="metric-icon-circle"></div>
+      <!-- Minimalist Dual-Pane Showcase (Solvana Ethereal Art + Metric Tiles) -->
+      <div id="statsSection" class="minimalist-hero-grid">
+        
+        <!-- Left: Solvana Radiant Resonance Card -->
+        <div class="solvana-art-card">
+          <div class="solvana-art-overlay">
+            <div class="solvana-tag">Daily Resonance</div>
+            <div class="solvana-title">Consecutive Scored Streak</div>
+            
+            <div class="solvana-stats-row">
+              <div class="solvana-stat-item">
+                <h3 id="metricCurrentStreak">0d</h3>
+                <span>Current Streak</span>
+              </div>
+              <div class="solvana-stat-item">
+                <h3 id="metricMindfulMins">0</h3>
+                <span>Mindful Minutes</span>
+              </div>
+            </div>
           </div>
-          <div id="metricCurrentStreak" class="metric-big-number">0d</div>
-          <div class="metric-sub-label">Consecutive days with completed scored reset</div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-card-top">
-            <span class="metric-card-label">Best Streak</span>
-            <div id="iconBestStreak" class="metric-icon-circle"></div>
+        <!-- Right: Minimalist Metric Tiles -->
+        <div class="metric-tiles-column">
+          <div class="minimal-metric-box">
+            <div class="minimal-box-top">
+              <span class="minimal-box-label">Best Record</span>
+              <div id="iconBestStreak"></div>
+            </div>
+            <div id="metricBestStreak" class="minimal-box-val">0d</div>
+            <div class="minimal-box-sub">Longest continuous streak</div>
           </div>
-          <div id="metricBestStreak" class="metric-big-number">0d</div>
-          <div class="metric-sub-label">Longest consecutive streak recorded</div>
+
+          <div class="minimal-metric-box">
+            <div class="minimal-box-top">
+              <span class="minimal-box-label">Thoughts Gathered</span>
+              <div id="iconThoughts"></div>
+            </div>
+            <div id="metricThoughts" class="minimal-box-val">0</div>
+            <div class="minimal-box-sub">Shapes gathered on exhale</div>
+          </div>
+
+          <div class="minimal-metric-box">
+            <div class="minimal-box-top">
+              <span class="minimal-box-label">Completed Resets</span>
+              <div id="iconCompleted"></div>
+            </div>
+            <div id="metricCompleted" class="minimal-box-val">0 / 0</div>
+            <div class="minimal-box-sub">Completed sessions</div>
+          </div>
+
+          <div class="minimal-metric-box">
+            <div class="minimal-box-top">
+              <span class="minimal-box-label">Total Time</span>
+              <div id="iconMindfulMinsSlot"></div>
+            </div>
+            <div id="metricHoursTotal" class="minimal-box-val">0.0h</div>
+            <div class="minimal-box-sub">Total mindful hours</div>
+          </div>
         </div>
 
-        <div class="metric-card">
-          <div class="metric-card-top">
-            <span class="metric-card-label">Mindful Minutes</span>
-            <div id="iconMindfulMins" class="metric-icon-circle"></div>
-          </div>
-          <div id="metricMindfulMins" class="metric-big-number">0</div>
-          <div class="metric-sub-label">Total duration across completed resets</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-card-top">
-            <span class="metric-card-label">Thoughts Gathered</span>
-            <div id="iconThoughts" class="metric-icon-circle"></div>
-          </div>
-          <div id="metricThoughts" class="metric-big-number">0</div>
-          <div class="metric-sub-label">Mindful shapes gathered on exhales</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-card-top">
-            <span class="metric-card-label">Completed Resets</span>
-            <div id="iconCompleted" class="metric-icon-circle"></div>
-          </div>
-          <div id="metricCompleted" class="metric-big-number">0 / 0</div>
-          <div class="metric-sub-label">Completed / Total Sessions</div>
-        </div>
       </div>
 
       <!-- Badges & Milestone Tokens -->
-      <section class="luxury-content-card">
-        <div class="card-header-bar">
-          <h2 class="card-header-title">Milestones & Honors</h2>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">Awarded once, dated to qualifying session</span>
+      <section class="minimalist-section">
+        <div class="section-divider-header">
+          <h2 class="section-divider-title">Milestones & Badges</h2>
+          <span class="section-divider-sub">Awarded once, dated to qualifying session</span>
         </div>
-        <div id="badgeShelfContainer" class="badge-tokens-grid"></div>
+        <div id="badgeShelfContainer" class="badge-grid-minimal"></div>
       </section>
 
-      <!-- 6-Week Activity Heatmap -->
-      <section class="luxury-content-card">
-        <div class="card-header-bar">
-          <h2 class="card-header-title">Practice Consistency</h2>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">42-day rolling window (local timezone)</span>
+      <!-- 42-Day Consistency Heatmap -->
+      <section class="minimalist-section">
+        <div class="section-divider-header">
+          <h2 class="section-divider-title">42-Day Rolling Consistency</h2>
+          <span class="section-divider-sub">Local practitioner timezone</span>
         </div>
-        <div id="heatmapGrid" class="consistency-heatmap-grid"></div>
+        <div id="heatmapGrid" class="heatmap-minimal-wrap"></div>
       </section>
 
       <!-- Session History Timeline -->
-      <section class="luxury-content-card">
-        <div class="card-header-bar">
-          <h2 class="card-header-title">Session History</h2>
-          <div class="timeline-filters">
-            <button class="filter-pill-tab active" data-filter="all">All</button>
-            <button class="filter-pill-tab" data-filter="scored">Scored</button>
-            <button class="filter-pill-tab" data-filter="practice">Practice</button>
+      <section class="minimalist-section">
+        <div class="section-divider-header">
+          <h2 class="section-divider-title">Session History</h2>
+          <div class="timeline-filter-pills">
+            <button class="filter-pill active" data-filter="all">All</button>
+            <button class="filter-pill" data-filter="scored">Scored</button>
+            <button class="filter-pill" data-filter="practice">Practice</button>
           </div>
         </div>
-        <div id="sessionsList" class="timeline-cards-flow"></div>
+        <div id="sessionsList" class="minimal-timeline-list"></div>
       </section>
 
     </main>
@@ -159,7 +181,7 @@
 
   <!-- SCREEN 2: COMMUNITY & OPS HEALTH -->
   <section id="communityView" class="screen-view" style="display: none;">
-    <main class="main-content" style="margin-top: 2rem;">
+    <main class="main-content" style="margin-top: 3rem;">
       
       <!-- Operations Summary Counters -->
       <div class="ops-summary-grid">

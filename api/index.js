@@ -1,37 +1,41 @@
 import { createApp } from '../src/server/app.js';
 import { globalStore } from '../src/store/syncStore.js';
 import fs from 'fs';
-import readline from 'readline';
 import path from 'path';
 
 const app = createApp();
 
 let isPreloaded = false;
 
-async function ensureFixtureLoaded() {
+function preloadFixture() {
   if (isPreloaded) return;
-  
-  const possiblePaths = [
-    path.resolve(process.cwd(), 'fixtures/sync-log.jsonl'),
-    path.join(process.cwd(), 'fixtures', 'sync-log.jsonl')
-  ];
+  try {
+    const candidatePaths = [
+      path.resolve(process.cwd(), 'fixtures/sync-log.jsonl'),
+      path.join(process.cwd(), 'fixtures', 'sync-log.jsonl'),
+      path.resolve('/var/task/fixtures/sync-log.jsonl')
+    ];
 
-  const fixturePath = possiblePaths.find(p => fs.existsSync(p));
-  if (fixturePath) {
-    const fileStream = fs.createReadStream(fixturePath);
-    const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
-    for await (const line of rl) {
-      if (!line.trim()) continue;
-      try {
-        const record = JSON.parse(line);
-        globalStore.processRecord(record);
-      } catch (e) {}
+    const fixturePath = candidatePaths.find(p => fs.existsSync(p));
+    if (fixturePath) {
+      const content = fs.readFileSync(fixturePath, 'utf8');
+      const lines = content.split('\n');
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        try {
+          const record = JSON.parse(trimmed);
+          globalStore.processRecord(record);
+        } catch (e) {}
+      }
     }
+  } catch (err) {
+    console.error('Fixture preload error:', err);
   }
   isPreloaded = true;
 }
 
-export default async function handler(req, res) {
-  await ensureFixtureLoaded();
-  return app(req, res);
-}
+// Load fixture on cold start
+preloadFixture();
+
+export default app;

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoQus — Mindfulness History & Analytics</title>
+  <meta name="description" content="Minimalist session synchronizer, streak and badge engine, and collective community analytics.">
+
+  <!-- Minimal Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/community.css">
+</head>
+<body>
+
+  <!-- Minimalist Top Navigation -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <span class="brand-symbol">FoQus</span>
+      
+      <!-- Compact Practitioner Selector -->
+      <div class="user-picker-compact">
+        <label for="userSelect">User:</label>
+        <select id="userSelect" class="user-select-input" aria-label="Select Practitioner Profile"></select>
+        <span id="userTimezoneTag" class="user-timezone-tag" title="Practitioner Profile Timezone">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="userTimezoneText">UTC</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Center Screen Switcher -->
+    <nav class="view-switcher" aria-label="Screen navigation">
+      <button id="tabDashboard" class="view-btn active" aria-controls="dashboardView">My Practice</button>
+      <button id="tabCommunity" class="view-btn" aria-controls="communityView">Community & Health</button>
+    </nav>
+
+    <!-- Right Actions -->
+    <div class="nav-right-actions">
+      <button id="btnThemeToggle" class="action-btn" title="Toggle Light / Dark Neumorphic Mode" aria-label="Toggle Theme">
+        <span id="themeIconSlot"></span>
+        <span id="themeText">Dark</span>
+      </button>
+      <button id="btnExportData" class="action-btn" title="Export complete data under GDPR Article 20">
+        <span id="exportIconSlot"></span> Export
+      </button>
+      <button id="btnEraseUser" class="action-btn action-btn-danger" title="Permanently delete all personal history under GDPR Article 17">
+        <span id="eraseIconSlot"></span> Erase
+      </button>
+    </div>
+  </header>
+
+  <!-- SCREEN 1: PERSONAL USER DASHBOARD -->
+  <section id="dashboardView" class="screen-view">
+    <main class="container bento-container">
+      
+      <!-- Top Welcome & Summary Bar (Crextio Inspired) -->
+      <div class="welcome-header-row">
+        <div class="welcome-left">
+          <h1 class="welcome-title">Welcome in, <span id="welcomeUserName">Practitioner</span></h1>
+          <div class="status-capsules-group">
+            <span class="capsule-pill capsule-blue" id="pillScoredCount">Scored Resets</span>
+            <span class="capsule-pill capsule-darkblue" id="pillPracticeCount">Practice Sessions</span>
+            <span class="capsule-pill capsule-soft" id="pillCalmRate">Calm Baseline</span>
+            <span class="capsule-pill capsule-outline" id="userMetaSubtitle">UTC</span>
+          </div>
+        </div>
+
+        <div class="welcome-stats-right">
+          <div class="stat-counter-unit">
+            <div class="counter-bubble" id="iconBestStreak"></div>
+            <div class="counter-text">
+              <span class="counter-num" id="metricBestStreak">0d</span>
+              <span class="counter-label">Best Streak</span>
+            </div>
+          </div>
+          <div class="stat-counter-unit">
+            <div class="counter-bubble" id="iconMindfulMins"></div>
+            <div class="counter-text">
+              <span class="counter-num" id="metricMindfulMins">0m</span>
+              <span class="counter-label">Mindful Mins</span>
+            </div>
+          </div>
+          <div class="stat-counter-unit">
+            <div class="counter-bubble" id="iconThoughts"></div>
+            <div class="counter-text">
+              <span class="counter-num" id="metricThoughts">0</span>
+              <span class="counter-label">Thoughts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Bento 4-Card Row -->
+      <div class="bento-top-grid">
+        
+        <!-- Card 1: Practitioner Profile Avatar Card -->
+        <div class="bento-card portrait-card">
+          <div class="portrait-photo-wrap">
+            <img src="/assets/hero-solvana.jpg" alt="Practitioner Sanctuary" class="portrait-img">
+            <div class="portrait-overlay">
+              <div class="portrait-info">
+                <h3 id="cardUserNickname" class="portrait-name">Practitioner</h3>
+                <span id="cardUserId" class="portrait-sub">usr_profile</span>
+              </div>
+              <div class="portrait-badge-tag">
+                <span id="cardUserMode">Personal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Progress & Weekly Consistency Bars -->
+        <div class="bento-card progress-card">
+          <div class="card-top-bar">
+            <span class="card-heading">Progress</span>
+            <span class="card-arrow-link">&#x2197;</span>
+          </div>
+          <div class="progress-num-row">
+            <span class="progress-big-val" id="metricCurrentStreak">0d</span>
+            <span class="progress-sub-label">Current Streak</span>
+            <span class="progress-floating-pill" id="pillStreakActive">Active</span>
+          </div>
+          <!-- Weekly Activity Bar Pillars -->
+          <div class="weekly-pillars-wrap">
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 65%;"></div><span class="pillar-label">S</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 90%;"></div><span class="pillar-label">M</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 75%;"></div><span class="pillar-label">T</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 100%;"></div><span class="pillar-label">W</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 85%;"></div><span class="pillar-label">T</span></div>
+            <div class="pillar-col"><div class="pillar-bar active" style="height: 95%;"></div><span class="pillar-label">F</span></div>
+            <div class="pillar-col"><div class="pillar-bar" style="height: 30%;"></div><span class="pillar-label">S</span></div>
+          </div>
+        </div>
+
+        <!-- Card 3: Time Tracker / Circular Resonance Gauge -->
+        <div class="bento-card tracker-card">
+          <div class="card-top-bar">
+            <span class="card-heading">Mindful Tracker</span>
+            <span class="card-arrow-link">&#x2197;</span>
+          </div>
+          <div class="dial-container">
+            <svg class="circular-dial" viewBox="0 0 120 120">
+              <circle class="dial-track" cx="60" cy="60" r="50" fill="none" stroke-width="8" />
+              <circle class="dial-progress" cx="60" cy="60" r="50" fill="none" stroke-width="8" stroke-dasharray="314" stroke-dashoffset="75" />
+            </svg>
+            <div class="dial-center-content">
+              <span id="dialMinutesText" class="dial-time-val">0m</span>
+              <span class="dial-time-sub">Reset Time</span>
+            </div>
+          </div>
+          <div class="dial-footer-pills">
+            <span class="dial-mode-pill">Deep Focus</span>
+            <span class="dial-mode-pill dial-pill-soft" id="dialCalmScore">Calm 74%</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Featured Dark Card (Badges & Honors 4/4) -->
+        <div class="bento-card navy-tasks-card">
+          <div class="card-top-bar">
+            <span class="navy-heading">Honors & Badges</span>
+            <span class="navy-count-badge" id="badgeCompletedCount">4/4</span>
+          </div>
+          <div id="badgeShelfContainer" class="navy-badges-list"></div>
+        </div>
+
+      </div>
+
+      <!-- Middle Bento: GitHub-Style Mindful Practice Consistency & Activity Overview -->
+      <div class="bento-card github-consistency-card">
+        <div class="consistency-top-head">
+          <div>
+            <h2 class="section-title">Mindful Practice & Consistency Overview</h2>
+            <span class="section-subtitle" id="userTzDisplay">Timezone: Asia/Kolkata</span>
+          </div>
+          <div class="github-top-stats-summary" id="heatmapSummaryText">
+            <span>Active Practice Matrix</span>
+          </div>
+        </div>
+
+        <!-- GitHub Heatmap Layout with Matrix & Year Sidebar -->
+        <div class="github-heatmap-container-row">
+          <div class="github-graph-main">
+            <div id="githubMonthsHeader" class="github-months-row"></div>
+            <div class="github-graph-inner">
+              <div class="github-days-labels">
+                <span></span>
+                <span>Mon</span>
+                <span></span>
+                <span>Wed</span>
+                <span></span>
+                <span>Fri</span>
+                <span></span>
+              </div>
+              <div id="heatmapGrid" class="github-matrix-grid"></div>
+            </div>
+            <div class="github-graph-footer-text">
+              <span class="footer-note-link">Learn how we count mindful streak resets in your local timezone</span>
+              <div class="github-legend-row">
+                <span class="legend-text">Less</span>
+                <span class="heat-square lvl-0"></span>
+                <span class="heat-square lvl-1"></span>
+                <span class="heat-square lvl-2"></span>
+                <span class="heat-square lvl-3"></span>
+                <span class="heat-square lvl-4"></span>
+                <span class="legend-text">More</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Year sidebar selector matching GitHub reference -->
+          <div class="github-year-sidebar">
+            <button class="year-sidebar-btn active" data-year="2026">2026</button>
+            <button class="year-sidebar-btn" data-year="2025">2025</button>
+          </div>
+        </div>
+
+        <!-- Divider Line -->
+        <hr class="card-inner-divider">
+
+        <!-- Activity Overview Section (Mirroring Image 2) -->
+        <div class="activity-overview-section">
+          <div class="overview-left-panel">
+            <h3 class="overview-section-title">Activity overview</h3>
+            
+            <div class="activity-highlight-item">
+              <div class="activity-highlight-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div class="activity-highlight-content">
+                <div class="highlight-main-text" id="activityHighlightResets">Completed resets across active calendar days</div>
+                <div class="highlight-sub-links" id="activityHighlightDetails">Primary sound mode: Stillness • Duration: 3m/5m</div>
+              </div>
+            </div>
+
+            <div class="activity-highlight-item">
+              <div class="activity-highlight-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="activity-highlight-content">
+                <div class="highlight-main-text" id="activityHighlightStreak">Longest unbroken chain recorded</div>
+                <div class="highlight-sub-links" id="activityHighlightRatio">97% Scored resets • 3% Practice resets</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="overview-right-panel">
+            <div id="crossGraphContainer" class="cross-graph-container">
+              <!-- 4-Axis Diamond Radar Chart SVG dynamically rendered -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bento: Session Practice Feed -->
+      <div class="bento-card history-panel-card">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Session Practice Feed</h2>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Chronological timeline with telemetry and private reflections</span>
+          </div>
+          <div class="filter-tabs-simple">
+            <button class="filter-btn-simple active" data-filter="all">All</button>
+            <button class="filter-btn-simple" data-filter="scored">Scored</button>
+            <button class="filter-btn-simple" data-filter="practice">Practice</button>
+          </div>
+        </div>
+        <div id="sessionsList" class="history-rows"></div>
+      </div>
+
+    </main>
+  </section>
+
+  <!-- SCREEN 2: COMMUNITY & OPS HEALTH -->
+  <section id="communityView" class="screen-view" style="display: none;">
+    <main class="bento-container">
+
+      <!-- Screen 2 Top Welcome Header -->
+      <div class="welcome-header-row">
+        <div>
+          <h1 class="welcome-title">Community & Ops Health</h1>
+          <div class="status-capsules-group">
+            <span class="capsule-pill capsule-blue">Rule 1 Ingestion Verified</span>
+            <span class="capsule-pill capsule-darkblue">Rule 2 Zero-Leakage Safe</span>
+            <span class="capsule-pill capsule-soft">Live Operations</span>
+            <span class="capsule-pill capsule-outline">Active Telemetry</span>
+          </div>
+        </div>
+        <div class="welcome-stats-right">
+          <div class="stat-counter-unit">
+            <div class="counter-bubble">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div>
+              <div class="counter-val">100%</div>
+              <div class="counter-lbl">Atomic Idempotency</div>
+            </div>
+          </div>
+          <div class="stat-counter-unit">
+            <div class="counter-bubble">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="counter-val">k=5</div>
+              <div class="counter-lbl">Anonymity Shield</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Bento 4-Column Operations Triage Overview -->
+      <div class="ops-triage-grid" style="margin-bottom: 1.5rem;">
+        
+        <!-- Card 1: Total Processed -->
+        <div class="bento-card stat-box-bento">
+          <div class="card-top-bar">
+            <span class="card-heading">Total Processed</span>
+            <span class="stat-pill-tag pill-blue">Ingested</span>
+          </div>
+          <div class="stat-box-num-wrap">
+            <span id="healthTotal" class="bento-stat-val val-blue">0</span>
+            <span class="stat-box-sub">Sync records ingested</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Accepted Sessions -->
+        <div class="bento-card stat-box-bento">
+          <div class="card-top-bar">
+            <span class="card-heading">Accepted</span>
+            <span class="stat-pill-tag pill-emerald">Rule 1 Invariant</span>
+          </div>
+          <div class="stat-box-num-wrap">
+            <span id="healthAccepted" class="bento-stat-val val-emerald">0</span>
+            <span class="stat-box-sub">Valid active sessions</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Deduplicated -->
+        <div class="bento-card stat-box-bento">
+          <div class="card-top-bar">
+            <span class="card-heading">Deduplicated</span>
+            <span class="stat-pill-tag pill-cyan">Zero Double-Count</span>
+          </div>
+          <div class="stat-box-num-wrap">
+            <span id="healthDedup" class="bento-stat-val val-cyan">0</span>
+            <span class="stat-box-sub">Multi-device duplicates</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Quarantined -->
+        <div class="bento-card stat-box-bento">
+          <div class="card-top-bar">
+            <span class="card-heading">Quarantined</span>
+            <span class="stat-pill-tag pill-rose">Triage Isolated</span>
+          </div>
+          <div class="stat-box-num-wrap">
+            <span id="healthQuarantined" class="bento-stat-val val-rose">0</span>
+            <span class="stat-box-sub">Rule 1 visible triage</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Developer Concurrency & Idempotency Test Card -->
+      <div class="bento-card concurrency-card" style="margin-bottom: 1.5rem;">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Concurrency & Idempotency Real-Time Test</h2>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Dispatches 10 parallel asynchronous HTTP requests for identical session IDs to test transactional race condition locking</span>
+          </div>
+          <button id="btnFireStress" class="action-btn action-btn-purple">
+            <span id="btnStressIconSlot"></span> Fire 10 Concurrent Sessions
+          </button>
+        </div>
+        <pre id="devStressOutput" class="terminal-window">Standby. Click 'Fire 10 Concurrent Sessions' to run live test.</pre>
+      </div>
+
+      <!-- 3-Column Telemetry Diagnostics Grid -->
+      <div class="telemetry-grid-3" style="margin-bottom: 1.5rem;">
+        
+        <div class="bento-card stat-box-bento">
+          <div class="card-top-bar">
+            <span class="card-heading">Legacy Protocol</span>
+            <span class="stat-pill-tag pill-neutral">v0.9.7</span>
+          </div>
+          <div class="stat-box-num-wrap">
+            <span id="telemetryLegacy" class="bento-stat-val-sm">0 sessions</span>
+            <span class="stat-box-sub">2 & 10 min legacy client sessions</span>
+          </div>
+        </div>
+
+        <div class="bento-card stat-box-bento">
+          <div class="card-top-bar">
+            <span class="card-heading">Clock Drift Ahead</span>
+            <span class="stat-pill-tag pill-neutral">Drift Sensor</span>
+          </div>
+          <div class="stat-box-num-wrap">
+            <span id="telemetryClockDrift" class="bento-stat-val-sm">0 sessions</span>
+            <span class="stat-box-sub">Device timestamp &gt; received_at</span>
+          </div>
+        </div>
+
+        <div class="bento-card stat-box-bento">
+          <div class="card-top-bar">
+            <span class="card-heading">GDPR Erased Users</span>
+            <span class="stat-pill-tag pill-neutral">Article 17</span>
+          </div>
+          <div class="stat-box-num-wrap">
+            <span id="telemetryErased" class="bento-stat-val-sm">0 accounts</span>
+            <span class="stat-box-sub">Purged identities with cascading session cleanup</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Community Aggregations Table Card -->
+      <div class="bento-card table-bento-card" style="margin-bottom: 1.5rem;">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Community Collective Metrics</h2>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Aggregated by ISO 8601 Week and Geographic Region with privacy preservation</span>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="clean-table">
+            <thead>
+              <tr>
+                <th>ISO Week</th>
+                <th>Region</th>
+                <th>Sessions</th>
+                <th>Mindful Minutes</th>
+                <th>Participants</th>
+                <th>Typical Calm Score</th>
+                <th>Privacy Assurance</th>
+              </tr>
+            </thead>
+            <tbody id="communityTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Quarantine Inspector Table Card (Rule 1 Compliance) -->
+      <div class="bento-card table-bento-card" style="margin-bottom: 2rem;">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Quarantine Inspector (Rule 1 Compliance)</h2>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Transparent triage log of rejected records with human-readable diagnostic reasons</span>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="clean-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Record ID</th>
+                <th>Quarantine Diagnostic Reason</th>
+                <th>Received At</th>
+              </tr>
+            </thead>
+            <tbody id="quarantineTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Screen 2: Community & Health (Neumorphic Operations Dashboard)
+   ========================================================================== */
+
+.ops-card {
+  background: var(--neu-surface);
+  box-shadow: var(--neu-extruded);
+  border: 1px solid var(--neu-border);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.6rem;
+  transition: all 0.25s ease;
+}
+
+.ops-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 18px var(--neu-dark), -6px -6px 14px var(--neu-light);
+}
+
+.ops-card.status-accepted {
+  border-left: 3px solid var(--accent-emerald);
+}
+
+.ops-card.status-dedup {
+  border-left: 3px solid var(--accent-cyan);
+}
+
+.ops-card.status-quarantine {
+  border-left: 3px solid var(--accent-rose);
+}
+
+.ops-card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ops-card-value {
+  font-family: var(--font-sans);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 0.5rem;
+}
+
+.val-accepted { color: var(--accent-emerald); }
+.val-dedup { color: var(--accent-cyan); }
+.val-quarantine { color: var(--accent-rose); }
+
+/* Neumorphic Terminal Window */
+.terminal-window {
+  background: var(--neu-base);
+  box-shadow: var(--neu-pressed);
+  border: 1px solid var(--neu-border);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #0369a1;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  margin-top: 1rem;
+}
+
+[data-theme="dark"] .terminal-window {
+  background: #080a0e;
+  color: #38bdf8;
+}
+
+/* Neumorphic Table Panel */
+.clean-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.clean-table th {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  background: var(--neu-base);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .clean-table th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.clean-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .clean-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.clean-table tr:hover td {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .clean-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.region-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  background: var(--neu-base);
+  box-shadow: var(--neu-pressed-sm);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.anonymized-shield-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  background: var(--neu-base);
+  box-shadow: var(--neu-pressed-sm);
+  color: var(--accent-emerald);
+  font-weight: 500;
+}
+
+.reason-tag {
+  color: var(--accent-rose);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+}

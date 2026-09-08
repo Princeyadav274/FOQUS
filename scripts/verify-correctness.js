@@ -4,7 +4,7 @@ import http from 'http';
 import { SyncStore } from '../src/store/syncStore.js';
 import { getCalendarDay, computeUserStats } from '../src/domain/stats.js';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || `http://127.0.0.1:${process.env.PORT || 3000}`;
 const FIXTURE_PATH = path.resolve('fixtures/sync-log.jsonl');
 
 async function httpPost(urlPath, body) {

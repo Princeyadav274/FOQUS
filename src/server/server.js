@@ -28,10 +28,10 @@ async function preloadFixture() {
 
 preloadFixture().then(() => {
   app.listen(PORT, () => {
-    console.log(`\n🌿 FoQus Sync Server running on http://localhost:${PORT}`);
-    console.log(`   - Screen 1 (Personal Dashboard):       http://localhost:${PORT}/`);
-    console.log(`   - Screen 2 (Community & Ops Health):   http://localhost:${PORT}/#community`);
-    console.log(`   - Sync Ingestion Endpoint:             POST http://localhost:${PORT}/api/sync`);
+    console.log(`\n🌿 FoQus Sync Server active on port ${PORT}`);
+    console.log(`   - Screen 1 (Personal Practice):        /`);
+    console.log(`   - Screen 2 (Community & Ops Health):   /#community`);
+    console.log(`   - Sync Ingestion Endpoint:             POST /api/sync`);
   });
 });
 

@@ -19,9 +19,9 @@ npm install
 ```bash
 npm start
 ```
-Open your browser to:
-- **Screen 1 (Personal Dashboard — My Practice)**: [`http://localhost:3000/`](http://localhost:3000/)
-- **Screen 2 (Community & Ops Health)**: [`http://localhost:3000/#community`](http://localhost:3000/#community)
+Navigate in your browser to:
+- **Screen 1 (Personal Dashboard — My Practice)**: `/`
+- **Screen 2 (Community & Ops Health)**: `/#community`
 
 ### 4. Run the Replay Runner
 Feeds the 6-week sync log through the ingestion engine and prints the complete verbatim report:

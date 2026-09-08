@@ -169,7 +169,7 @@ export async function renderUserDashboard(userId) {
     if (badgeCount) badgeCount.textContent = `${stats.badges.length}/4`;
 
     renderBadges(stats.badges, stats);
-    renderHeatmap(sessions, user.timezone);
+    renderHeatmap(sessions, user.timezone, stats);
     renderSessionsList(sessions);
   } catch (err) {
     console.error('Error rendering dashboard:', err);
@@ -238,12 +238,13 @@ function renderBadges(awardedBadges, stats) {
   }).join('');
 }
 
-function renderHeatmap(sessions, timezone) {
+function renderHeatmap(sessions, timezone, stats) {
   const container = document.getElementById('heatmapGrid');
+  const monthsHeader = document.getElementById('githubMonthsHeader');
   if (!container) return;
 
   const dayCounts = new Map();
-  let maxTs = Date.now();
+  let maxTs = 0;
 
   for (const s of sessions) {
     if (!s.completed) continue;
@@ -259,25 +260,193 @@ function renderHeatmap(sessions, timezone) {
     } catch (e) {}
   }
 
-  const daysArray = [];
-  const endDate = new Date(maxTs);
+  // Determine reference end date (Saturday of the current/max week)
+  const refDate = new Date(maxTs > 0 ? maxTs : Date.now());
+  const dayOfWeek = refDate.getUTCDay(); // 0 is Sun, 6 is Sat
+  const endSat = new Date(refDate);
+  endSat.setUTCDate(endSat.getUTCDate() + (6 - dayOfWeek));
 
-  for (let i = 41; i >= 0; i--) {
-    const d = new Date(endDate);
-    d.setUTCDate(d.getUTCDate() - i);
-    const dayStr = d.toISOString().slice(0, 10);
-    const count = dayCounts.get(dayStr) || 0;
-    daysArray.push({ dayStr, count });
+  // 52 weeks = 364 days ending on endSat
+  const numWeeks = 52;
+  const startDate = new Date(endSat);
+  startDate.setUTCDate(startDate.getUTCDate() - (numWeeks * 7 - 1));
+
+  const weeks = [];
+  const monthLabels = [];
+  let lastMonth = -1;
+
+  for (let w = 0; w < numWeeks; w++) {
+    const daysInWeek = [];
+    for (let d = 0; d < 7; d++) {
+      const cur = new Date(startDate);
+      cur.setUTCDate(cur.getUTCDate() + (w * 7 + d));
+      const dayStr = cur.toISOString().slice(0, 10);
+      const count = dayCounts.get(dayStr) || 0;
+      const month = cur.getUTCMonth();
+
+      // Check if start of a month or first column
+      if (d === 0 && month !== lastMonth) {
+        monthLabels.push({
+          colIndex: w,
+          name: cur.toLocaleDateString('en-US', { month: 'short' })
+        });
+        lastMonth = month;
+      }
+
+      let lvlClass = 'lvl-0';
+      if (count === 1) lvlClass = 'lvl-1';
+      else if (count === 2) lvlClass = 'lvl-2';
+      else if (count === 3) lvlClass = 'lvl-3';
+      else if (count >= 4) lvlClass = 'lvl-4';
+
+      const friendlyDate = cur.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      daysInWeek.push({
+        dayStr,
+        friendlyDate,
+        count,
+        lvlClass
+      });
+    }
+    weeks.push(daysInWeek);
   }
 
-  container.innerHTML = daysArray.map(item => {
-    let lvlClass = '';
-    if (item.count === 1) lvlClass = 'l1';
-    else if (item.count === 2) lvlClass = 'l2';
-    else if (item.count >= 3) lvlClass = 'l3';
+  // Render month header positioned over columns
+  if (monthsHeader) {
+    monthsHeader.innerHTML = monthLabels
+      .filter((m, i, arr) => i === 0 || m.colIndex - arr[i - 1].colIndex >= 3)
+      .map(m => {
+        // each column is 13px + 3.5px gap = 16.5px
+        const leftPx = m.colIndex * 16.5;
+        return `<span class="github-month-label" style="left: ${leftPx}px;">${m.name}</span>`;
+      }).join('');
+  }
 
-    return `<div class="heat-cell ${lvlClass}" title="${item.dayStr}: ${item.count} resets"></div>`;
+  // Render heatmap grid
+  container.innerHTML = weeks.map(week => {
+    const cellsHtml = week.map(cell => {
+      const tip = `${cell.count === 0 ? 'No' : cell.count} mindful reset${cell.count === 1 ? '' : 's'} on ${cell.friendlyDate}`;
+      return `<div class="heat-cell ${cell.lvlClass}" title="${tip}" data-date="${cell.dayStr}"></div>`;
+    }).join('');
+    return `<div class="week-col">${cellsHtml}</div>`;
   }).join('');
+
+  // Update top summary text
+  const summaryElem = document.getElementById('heatmapSummaryText');
+  if (summaryElem) {
+    const totalInYear = stats?.completedSessions || stats?.totalSessions || sessions.length;
+    summaryElem.innerHTML = `<span><strong>${totalInYear}</strong> mindful resets recorded</span>`;
+  }
+
+  // Activity Overview: Left Panel Content
+  const highlightResets = document.getElementById('activityHighlightResets');
+  if (highlightResets) {
+    const activeDays = stats?.scoredDays?.length || dayCounts.size || 0;
+    const completedCount = stats?.completedSessions || stats?.totalSessions || sessions.length;
+    highlightResets.innerHTML = `Completed <strong>${completedCount}</strong> resets across <strong>${activeDays}</strong> active calendar days`;
+  }
+
+  const highlightDetails = document.getElementById('activityHighlightDetails');
+  if (highlightDetails) {
+    const soundscapeFreq = {};
+    for (const s of sessions) {
+      if (s.soundscape) {
+        soundscapeFreq[s.soundscape] = (soundscapeFreq[s.soundscape] || 0) + 1;
+      }
+    }
+    const topSounds = Object.keys(soundscapeFreq).slice(0, 2).join(', ') || 'Stillness, Solvana';
+    highlightDetails.textContent = `Primary soundscapes: ${topSounds} • ${stats?.mindfulMinutes || 0} total mindful minutes`;
+  }
+
+  const highlightStreak = document.getElementById('activityHighlightStreak');
+  if (highlightStreak) {
+    highlightStreak.innerHTML = `Longest unbroken chain: <strong>${stats?.bestStreak || 0} days</strong> • Current: <strong>${stats?.currentStreak || 0} days</strong>`;
+  }
+
+  const scoredCount = stats?.scoredSessions || 0;
+  const practiceCount = stats?.practiceSessions || 0;
+  const totalMode = scoredCount + practiceCount || 1;
+  const scoredPct = Math.round((scoredCount / totalMode) * 100);
+  const practicePct = 100 - scoredPct;
+
+  const highlightRatio = document.getElementById('activityHighlightRatio');
+  if (highlightRatio) {
+    highlightRatio.innerHTML = `<strong>${scoredPct}%</strong> Scored resets (${scoredCount}) • <strong>${practicePct}%</strong> Practice sessions (${practiceCount})`;
+  }
+
+  // Activity Overview: Right Panel 4-Axis Cross Radar Chart (Blue Theme)
+  renderCrossChart(stats, scoredPct, practicePct, sessions);
+}
+
+function renderCrossChart(stats, scoredPct, practicePct, sessions) {
+  const container = document.getElementById('crossGraphContainer');
+  if (!container) return;
+
+  // Calculate calm average
+  const scoredCalms = (sessions || [])
+    .filter(s => s.completed && s.calmScore !== undefined && s.calmScore !== null && s.sessionMode === 'scored')
+    .map(s => s.calmScore);
+  const avgCalm = scoredCalms.length > 0 
+    ? Math.round((scoredCalms.reduce((a, b) => a + b, 0) / scoredCalms.length) * 100)
+    : 74;
+
+  // Radar coordinates with center at (180, 100)
+  // Left: Scored % (dominant, stretches left matching GitHub commits in reference image)
+  const leftDist = 30 + Math.min(100, Math.round((scoredPct / 100) * 90));
+  const xLeft = 180 - leftDist;
+
+  // Right: Practice %
+  const rightDist = 18 + Math.min(60, Math.round((practicePct / 100) * 80));
+  const xRight = 180 + rightDist;
+
+  // Top: Steadiness / Calm score %
+  const topDist = 20 + Math.min(65, Math.round((avgCalm / 100) * 60));
+  const yTop = 100 - topDist;
+
+  // Bottom: Duration / Streak depth
+  const streakVal = stats?.bestStreak || 1;
+  const bottomDist = 18 + Math.min(65, streakVal * 9);
+  const yBottom = 100 + bottomDist;
+
+  container.innerHTML = `
+    <svg viewBox="0 0 380 200" width="100%" height="100%" style="overflow: visible;">
+      <!-- Crosshair Axes (Blue Theme) -->
+      <line x1="50" y1="100" x2="310" y2="100" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" />
+      <line x1="180" y1="22" x2="180" y2="178" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" />
+
+      <!-- Center Origin Dot -->
+      <circle cx="180" cy="100" r="2.5" fill="#2563eb" />
+
+      <!-- Diamond Polygon (Filled Blue with Blue Border) -->
+      <polygon 
+        points="${xLeft},100 180,${yTop} ${xRight},100 180,${yBottom}" 
+        fill="rgba(37, 99, 235, 0.22)" 
+        stroke="#2563eb" 
+        stroke-width="2.5" 
+        stroke-linejoin="round" 
+      />
+
+      <!-- Vertex Marker Dots (White with Blue Ring) -->
+      <circle cx="${xLeft}" cy="100" r="4.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5" />
+      <circle cx="180" cy="${yTop}" r="4.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5" />
+      <circle cx="${xRight}" cy="100" r="4.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5" />
+      <circle cx="180" cy="${yBottom}" r="4.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5" />
+
+      <!-- Axis Labels Matching Reference Image -->
+      <!-- Top Label -->
+      <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="500" fill="var(--text-muted)">Steadiness</text>
+
+      <!-- Bottom Label -->
+      <text x="180" y="195" text-anchor="middle" font-size="11" font-weight="500" fill="var(--text-muted)">Breath Depth</text>
+
+      <!-- Left Label (Two lines: Percentage + Scored) -->
+      <text x="42" y="94" text-anchor="end" font-size="12" font-weight="700" fill="var(--text-primary)">${scoredPct}%</text>
+      <text x="42" y="108" text-anchor="end" font-size="10" font-weight="500" fill="var(--text-muted)">Scored</text>
+
+      <!-- Right Label (Two lines: Percentage + Practice) -->
+      <text x="318" y="94" text-anchor="start" font-size="12" font-weight="700" fill="var(--text-primary)">${practicePct}%</text>
+      <text x="318" y="108" text-anchor="start" font-size="10" font-weight="500" fill="var(--text-muted)">Practice</text>
+    </svg>
+  `;
 }
 
 function renderSessionsList(sessions) {

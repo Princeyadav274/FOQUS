@@ -170,41 +170,106 @@
 
       </div>
 
-      <!-- Bottom Bento 2-Column Row -->
-      <div class="bento-bottom-grid">
-        
-        <!-- Left: Session History List -->
-        <div class="bento-card history-panel-card">
-          <div class="section-head">
-            <h2 class="section-title">Session Practice Feed</h2>
-            <div class="filter-tabs-simple">
-              <button class="filter-btn-simple active" data-filter="all">All</button>
-              <button class="filter-btn-simple" data-filter="scored">Scored</button>
-              <button class="filter-btn-simple" data-filter="practice">Practice</button>
+      <!-- Middle Bento: GitHub-Style Mindful Practice Consistency & Activity Overview -->
+      <div class="bento-card github-consistency-card">
+        <div class="consistency-top-head">
+          <div>
+            <h2 class="section-title">Mindful Practice & Consistency Overview</h2>
+            <span class="section-subtitle" id="userTzDisplay">Timezone: Asia/Kolkata</span>
+          </div>
+          <div class="github-top-stats-summary" id="heatmapSummaryText">
+            <span>Active Practice Matrix</span>
+          </div>
+        </div>
+
+        <!-- GitHub Heatmap Layout with Matrix & Year Sidebar -->
+        <div class="github-heatmap-container-row">
+          <div class="github-graph-main">
+            <div id="githubMonthsHeader" class="github-months-row"></div>
+            <div class="github-graph-inner">
+              <div class="github-days-labels">
+                <span></span>
+                <span>Mon</span>
+                <span></span>
+                <span>Wed</span>
+                <span></span>
+                <span>Fri</span>
+                <span></span>
+              </div>
+              <div id="heatmapGrid" class="github-matrix-grid"></div>
+            </div>
+            <div class="github-graph-footer-text">
+              <span class="footer-note-link">Learn how we count mindful streak resets in your local timezone</span>
+              <div class="github-legend-row">
+                <span class="legend-text">Less</span>
+                <span class="heat-square lvl-0"></span>
+                <span class="heat-square lvl-1"></span>
+                <span class="heat-square lvl-2"></span>
+                <span class="heat-square lvl-3"></span>
+                <span class="heat-square lvl-4"></span>
+                <span class="legend-text">More</span>
+              </div>
             </div>
           </div>
-          <div id="sessionsList" class="history-rows"></div>
-        </div>
 
-        <!-- Right: 42-Day Rolling Consistency Heatmap -->
-        <div class="bento-card heatmap-panel-card">
-          <div class="section-head">
-            <h2 class="section-title">42-Day Rolling Consistency</h2>
-            <span style="font-size: 0.75rem; color: var(--text-muted);" id="userTzDisplay">Local timezone</span>
-          </div>
-          <div class="heatmap-tray">
-            <div id="heatmapGrid" class="heatmap-grid-simple"></div>
-          </div>
-          <div class="heatmap-legend-row">
-            <span class="legend-text">Less</span>
-            <span class="legend-box" style="background: rgba(0,0,0,0.06);"></span>
-            <span class="legend-box" style="background: rgba(16, 185, 129, 0.3);"></span>
-            <span class="legend-box" style="background: rgba(16, 185, 129, 0.6);"></span>
-            <span class="legend-box" style="background: #10b981;"></span>
-            <span class="legend-text">More</span>
+          <!-- Year sidebar selector matching GitHub reference -->
+          <div class="github-year-sidebar">
+            <button class="year-sidebar-btn active" data-year="2026">2026</button>
+            <button class="year-sidebar-btn" data-year="2025">2025</button>
           </div>
         </div>
 
+        <!-- Divider Line -->
+        <hr class="card-inner-divider">
+
+        <!-- Activity Overview Section (Mirroring Image 2) -->
+        <div class="activity-overview-section">
+          <div class="overview-left-panel">
+            <h3 class="overview-section-title">Activity overview</h3>
+            
+            <div class="activity-highlight-item">
+              <div class="activity-highlight-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div class="activity-highlight-content">
+                <div class="highlight-main-text" id="activityHighlightResets">Completed resets across active calendar days</div>
+                <div class="highlight-sub-links" id="activityHighlightDetails">Primary sound mode: Stillness • Duration: 3m/5m</div>
+              </div>
+            </div>
+
+            <div class="activity-highlight-item">
+              <div class="activity-highlight-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="activity-highlight-content">
+                <div class="highlight-main-text" id="activityHighlightStreak">Longest unbroken chain recorded</div>
+                <div class="highlight-sub-links" id="activityHighlightRatio">97% Scored resets • 3% Practice resets</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="overview-right-panel">
+            <div id="crossGraphContainer" class="cross-graph-container">
+              <!-- 4-Axis Diamond Radar Chart SVG dynamically rendered -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bento: Session Practice Feed -->
+      <div class="bento-card history-panel-card">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Session Practice Feed</h2>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Chronological timeline with telemetry and private reflections</span>
+          </div>
+          <div class="filter-tabs-simple">
+            <button class="filter-btn-simple active" data-filter="all">All</button>
+            <button class="filter-btn-simple" data-filter="scored">Scored</button>
+            <button class="filter-btn-simple" data-filter="practice">Practice</button>
+          </div>
+        </div>
+        <div id="sessionsList" class="history-rows"></div>
       </div>
 
     </main>

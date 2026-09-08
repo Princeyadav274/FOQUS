@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FoQus Sync — Personal Mindfulness History & Community Health</title>
-  <meta name="description" content="FoQus breathing reset synchronizer, streak and badge engine, and collective community view.">
-  
-  <!-- Google Fonts -->
+  <title>FoQus — Breath Reset & Mindfulness Analytics</title>
+  <meta name="description" content="Ethereal breathing reset history, timezone-aware streaks and badges, and collective mindfulness numbers.">
+
+  <!-- Editorial Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/dashboard.css">
@@ -20,17 +20,18 @@
   <!-- App Header -->
   <header class="app-header">
     <div class="brand-container">
-      <div class="breathing-orb" title="FoQus ambient breath indicator"></div>
-      <span class="brand-title">FoQus Sync</span>
+      <div id="brandLogoSlot" class="brand-icon-wrapper"></div>
+      <span class="brand-title">FoQus</span>
+      <span class="brand-sub">Sync Engine</span>
     </div>
 
-    <!-- Screen Switcher Tabs -->
+    <!-- Screen Switcher Navigation Tabs -->
     <nav class="nav-tabs" aria-label="Screen navigation">
       <button id="tabDashboard" class="nav-tab-btn active" aria-controls="dashboardView">
-        <span>🧘</span> My Practice
+        <span id="tabPracticeIcon"></span> My Practice
       </button>
       <button id="tabCommunity" class="nav-tab-btn" aria-controls="communityView">
-        <span>🌍</span> Community & Health
+        <span id="tabCommunityIcon"></span> Community & Health
       </button>
     </nav>
   </header>
@@ -40,95 +41,119 @@
     <!-- SCREEN 1: PERSONAL USER DASHBOARD -->
     <section id="dashboardView" class="screen-view">
       
-      <!-- Top Bar: User Picker & Privacy Actions -->
-      <div class="dashboard-topbar">
-        <div class="user-picker-wrapper">
-          <label for="userSelect">Active Profile:</label>
-          <select id="userSelect" class="user-select"></select>
-          <div id="userMetaChip" class="user-meta-chip"></div>
+      <!-- Ethereal Hero Mood Banner -->
+      <div class="hero-stillness-banner">
+        <div class="hero-breath-orb"></div>
+        <h1 class="hero-title">Find Stillness Within, and Let Growth Begin</h1>
+        <p class="hero-subtitle">Quiet the noise. Let your thoughts settle and your breath lead the way.</p>
+      </div>
+
+      <!-- User Control Bar -->
+      <div class="user-control-bar">
+        <div class="user-selector-group">
+          <div id="userAvatarSlot" class="user-avatar-badge">FQ</div>
+          <div class="user-select-container">
+            <span class="user-select-label">Active Practitioner</span>
+            <div class="custom-select-wrapper">
+              <select id="userSelect" aria-label="Select User Profile"></select>
+            </div>
+          </div>
+          <div id="userMetaPills" class="user-meta-pills"></div>
         </div>
 
-        <div class="user-actions">
-          <button id="btnExportData" class="btn-secondary" title="Export complete data under GDPR Article 20">
-            <span>📥</span> Export My Data
+        <div class="user-actions-group">
+          <button id="btnExportData" class="btn-pill" title="Export complete data under GDPR Article 20">
+            <span id="exportIconSlot"></span> Export History
           </button>
-          <button id="btnEraseUser" class="btn-danger" title="Permanently delete all personal history under GDPR Article 17">
-            <span>🗑️</span> Erase Me
+          <button id="btnEraseUser" class="btn-pill btn-pill-danger" title="Permanently delete all personal history under GDPR Article 17">
+            <span id="eraseIconSlot"></span> Erase Data
           </button>
         </div>
       </div>
 
       <!-- Top Metric Cards Grid -->
       <div class="metrics-grid">
-        <div class="metric-card streak-card">
+        <div class="metric-card highlight-card">
           <div class="metric-header">
-            <span class="metric-title">Current Streak</span>
-            <span class="metric-icon">🔥</span>
+            <span class="metric-label">Current Streak</span>
+            <div id="iconCurrentStreak" class="metric-icon-box"></div>
           </div>
-          <div id="metricCurrentStreak" class="metric-value">0d</div>
-          <div class="metric-sub">Consecutive completed scored days</div>
+          <div id="metricCurrentStreak" class="metric-number">0d</div>
+          <div class="metric-footer">Consecutive days with completed reset</div>
         </div>
 
         <div class="metric-card">
           <div class="metric-header">
-            <span class="metric-title">Best Streak</span>
-            <span class="metric-icon">🏆</span>
+            <span class="metric-label">Best Streak</span>
+            <div id="iconBestStreak" class="metric-icon-box"></div>
           </div>
-          <div id="metricBestStreak" class="metric-value">0d</div>
-          <div class="metric-sub">Longest ever streak</div>
+          <div id="metricBestStreak" class="metric-number">0d</div>
+          <div class="metric-footer">Longest consecutive streak recorded</div>
         </div>
 
         <div class="metric-card">
           <div class="metric-header">
-            <span class="metric-title">Mindful Minutes</span>
-            <span class="metric-icon">⏳</span>
+            <span class="metric-label">Mindful Minutes</span>
+            <div id="iconMindfulMins" class="metric-icon-box"></div>
           </div>
-          <div id="metricMindfulMins" class="metric-value">0</div>
-          <div class="metric-sub">Total minutes across completed sessions</div>
+          <div id="metricMindfulMins" class="metric-number">0</div>
+          <div class="metric-footer">Total duration across completed resets</div>
         </div>
 
         <div class="metric-card">
           <div class="metric-header">
-            <span class="metric-title">Thoughts Gathered</span>
-            <span class="metric-icon">✨</span>
+            <span class="metric-label">Thoughts Gathered</span>
+            <div id="iconThoughts" class="metric-icon-box"></div>
           </div>
-          <div id="metricThoughts" class="metric-value">0</div>
-          <div class="metric-sub">Mindful shapes gathered on exhales</div>
+          <div id="metricThoughts" class="metric-number">0</div>
+          <div class="metric-footer">Mindful shapes gathered on exhales</div>
         </div>
 
         <div class="metric-card">
           <div class="metric-header">
-            <span class="metric-title">Completed Resets</span>
-            <span class="metric-icon">🌿</span>
+            <span class="metric-label">Completed Resets</span>
+            <div id="iconCompleted" class="metric-icon-box"></div>
           </div>
-          <div id="metricCompleted" class="metric-value">0 / 0</div>
-          <div class="metric-sub">Completed / Total Sessions</div>
+          <div id="metricCompleted" class="metric-number">0 / 0</div>
+          <div class="metric-footer">Completed / Total Sessions</div>
         </div>
       </div>
 
-      <!-- Badges Shelf Section -->
-      <section class="badge-shelf-section">
-        <h2 class="section-title"><span>🎖️</span> Badges & Milestones</h2>
-        <div id="badgeShelfContainer" class="badges-container"></div>
+      <!-- Badges & Milestone Tokens -->
+      <section class="content-card-section">
+        <div class="section-headline">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Milestones & Honors</h2>
+          </div>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">Awarded once, dated to qualifying session</span>
+        </div>
+        <div id="badgeShelfContainer" class="badge-grid"></div>
       </section>
 
       <!-- 6-Week Activity Heatmap -->
-      <section class="heatmap-section">
-        <h2 class="section-title"><span>📅</span> Last 6 Weeks Activity (Local Timezone)</h2>
-        <div id="heatmapGrid" class="heatmap-grid"></div>
+      <section class="content-card-section">
+        <div class="section-headline">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Practice Consistency</h2>
+          </div>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">42-day rolling window (local timezone)</span>
+        </div>
+        <div id="heatmapGrid" class="heatmap-container"></div>
       </section>
 
-      <!-- Session History Section -->
-      <section class="history-section">
-        <div class="history-header">
-          <h2 class="section-title"><span>📖</span> Session History</h2>
-          <div class="history-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="scored">Scored</button>
-            <button class="filter-btn" data-filter="practice">Practice</button>
+      <!-- Session History Timeline -->
+      <section class="content-card-section">
+        <div class="section-headline">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Session History</h2>
+          </div>
+          <div class="session-filters">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="scored">Scored</button>
+            <button class="filter-tab" data-filter="practice">Practice</button>
           </div>
         </div>
-        <div id="sessionsList" class="sessions-list"></div>
+        <div id="sessionsList" class="timeline-list"></div>
       </section>
 
     </section>
@@ -136,64 +161,68 @@
     <!-- SCREEN 2: COMMUNITY & OPS HEALTH -->
     <section id="communityView" class="screen-view" style="display: none;">
       
-      <!-- Sync Health Overview Counters -->
-      <div class="health-banner-grid">
-        <div class="health-card">
-          <div class="stat-label">Total Syncs Processed</div>
-          <div id="healthTotal" class="stat-number">0</div>
+      <!-- Operations Summary Counters -->
+      <div class="ops-summary-grid">
+        <div class="ops-card">
+          <div class="ops-card-label">Total Syncs Ingested</div>
+          <div id="healthTotal" class="ops-card-value">0</div>
         </div>
-        <div class="health-card accepted-card">
-          <div class="stat-label">Accepted Records</div>
-          <div id="healthAccepted" class="stat-number text-calm">0</div>
+        <div class="ops-card status-accepted">
+          <div class="ops-card-label">Accepted Records</div>
+          <div id="healthAccepted" class="ops-card-value val-accepted">0</div>
         </div>
-        <div class="health-card dedup-card">
-          <div class="stat-label">Deduplicated Records</div>
-          <div id="healthDedup" class="stat-number text-focus">0</div>
+        <div class="ops-card status-dedup">
+          <div class="ops-card-label">Deduplicated Records</div>
+          <div id="healthDedup" class="ops-card-value val-dedup">0</div>
         </div>
-        <div class="health-card quarantine-card">
-          <div class="stat-label">Quarantined Records</div>
-          <div id="healthQuarantined" class="stat-number text-danger">0</div>
+        <div class="ops-card status-quarantine">
+          <div class="ops-card-label">Quarantined Records</div>
+          <div id="healthQuarantined" class="ops-card-value val-quarantine">0</div>
         </div>
       </div>
 
-      <!-- Dev Controls Box -->
-      <section class="dev-controls-box">
-        <div class="dev-controls-header">
-          <div>
-            <h3 style="color: #ffffff; font-size: 1.1rem; margin-bottom: 0.2rem;">⚡ Developer Tools: Live Concurrency Stress Test</h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">Fires 10 simultaneous HTTP requests with identical session IDs to verify real-time atomic deduplication and zero double-counting.</p>
+      <!-- Developer Stress Test Terminal -->
+      <section class="dev-terminal-section">
+        <div class="dev-terminal-header">
+          <div class="dev-header-left">
+            <h3><span id="devZapIconSlot"></span> Concurrency & Atomic Deduplication Engine</h3>
+            <p>Fires 10 concurrent requests with identical session IDs to verify real-time race condition safety and zero double-counting.</p>
           </div>
-          <button id="btnFireStress" class="btn-primary-purple">⚡ Fire 10 Concurrent Sessions</button>
+          <button id="btnFireStress" class="btn-trigger-stress">
+            <span id="btnStressIconSlot"></span> Fire 10 Concurrent Sessions
+          </button>
         </div>
-        <pre id="devStressOutput" class="dev-output-terminal">Ready. Click 'Fire 10 Concurrent Sessions' to run live test.</pre>
+        <pre id="devStressOutput" class="terminal-window">Engine standby. Click 'Fire 10 Concurrent Sessions' to run live test.</pre>
       </section>
 
-      <!-- Telemetry & Anomaly Cards -->
-      <div class="telemetry-grid">
-        <div class="telemetry-card">
-          <h4>📱 Legacy Clients (v0.9.7)</h4>
-          <div id="telemetryLegacy" style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">0 sessions</div>
-          <p>2 & 10 min sessions preserved from pre-standardization app clients.</p>
+      <!-- Telemetry Diagnostics Grid -->
+      <div class="telemetry-row">
+        <div class="telemetry-panel">
+          <h4>Legacy Client Versions (v0.9.7)</h4>
+          <div id="telemetryLegacy" class="telemetry-stat">0 sessions</div>
+          <p>Legacy 2 & 10 min sessions preserved from pre-standardization app clients.</p>
         </div>
-        <div class="telemetry-card">
-          <h4>⏰ Clock Drift Ahead</h4>
-          <div id="telemetryClockDrift" style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">0 sessions</div>
-          <p>Device clock > received_at (normal for offline & roaming devices).</p>
+        <div class="telemetry-panel">
+          <h4>Clock Drift Ahead</h4>
+          <div id="telemetryClockDrift" class="telemetry-stat">0 sessions</div>
+          <p>Device timestamp > received_at (normal for offline & roaming clients).</p>
         </div>
-        <div class="telemetry-card">
-          <h4>🛡️ GDPR Erasures Executed</h4>
-          <div id="telemetryErased" style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">0 accounts</div>
-          <p>All data purged; post-erasure cached sync attempts safely quarantined.</p>
+        <div class="telemetry-panel">
+          <h4>GDPR Accounts Erased</h4>
+          <div id="telemetryErased" class="telemetry-stat">0 accounts</div>
+          <p>Full identity purging; subsequent cached deliveries safely quarantined.</p>
         </div>
       </div>
 
       <!-- Community Aggregations Table -->
-      <section class="data-table-section">
-        <div class="table-header-row">
-          <h2 class="section-title"><span>🌍</span> Community Collective Numbers</h2>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">Aggregated by ISO Week & Geographic Region</span>
+      <section class="table-panel">
+        <div class="table-header">
+          <div>
+            <h2 class="section-title">Community Collective Metrics</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Aggregated by ISO 8601 Week and Geographic Region</p>
+          </div>
         </div>
-        <table class="custom-table">
+        <table class="clean-table">
           <thead>
             <tr>
               <th>ISO Week</th>
@@ -202,7 +231,7 @@
               <th>Mindful Minutes</th>
               <th>Participants</th>
               <th>Typical Calm Score</th>
-              <th>Privacy Status</th>
+              <th>Privacy Assurance</th>
             </tr>
           </thead>
           <tbody id="communityTableBody"></tbody>
@@ -210,17 +239,19 @@
       </section>
 
       <!-- Quarantine Inspector Table -->
-      <section class="data-table-section">
-        <div class="table-header-row">
-          <h2 class="section-title"><span>🛡️</span> Quarantine Inspector (Rule 1 Audit)</h2>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">Visible triage of rejected records with human-readable reasons</span>
+      <section class="table-panel">
+        <div class="table-header">
+          <div>
+            <h2 class="section-title">Quarantine Inspector (Rule 1 Compliance)</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Transparent triage log of rejected records with human-readable diagnostic reasons</p>
+          </div>
         </div>
-        <table class="custom-table">
+        <table class="clean-table">
           <thead>
             <tr>
               <th>Type</th>
-              <th>Record Identifier</th>
-              <th>Quarantine Reason</th>
+              <th>Record ID</th>
+              <th>Quarantine Diagnostic Reason</th>
               <th>Received At</th>
             </tr>
           </thead>

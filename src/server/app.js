@@ -27,7 +27,11 @@ export function createApp() {
   app.use('/api/dev', devRouter);
 
   // Serve static UI assets
-  const publicDir = path.join(__dirname, '../public');
+  const publicCandidates = [
+    path.resolve(process.cwd(), 'src/public'),
+    path.join(__dirname, '../public')
+  ];
+  const publicDir = publicCandidates.find(p => fs.existsSync(p)) || path.join(__dirname, '../public');
   app.use(express.static(publicDir));
 
   // SPA fallback to index.html
